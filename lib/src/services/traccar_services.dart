@@ -28,6 +28,8 @@ class Traccar {
       await updateCookie(response);
 
       if (response.statusCode == 200) {
+        print('___ay r200');
+
         await SharedPreferencesServices.setStringData(
             key: 'email', value: userId);
         await SharedPreferencesServices.setStringData(

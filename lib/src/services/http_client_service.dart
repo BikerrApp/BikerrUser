@@ -49,11 +49,14 @@ class HttpService {
     required RxBool isLoading,
   }) async {
     isLoading.value = true;
+    print('___ay $bodyTag');
+
     final response = await http.post(
       Uri.parse('$serverUrl$url'),
       headers: headerData,
-      body: bodyTag,
+      body: url == 'users' ? jsonEncode(bodyTag) : bodyTag,
     );
+    print('___ay ${response.body}');
 
     isLoading.value = false;
     return response;
@@ -67,17 +70,14 @@ class HttpService {
     required RxBool isLoading,
   }) async {
     isLoading.value = true;
+
     final response = await http.post(
       isServer ? Uri.parse('$serverUrl$url') : Uri.parse('$commonBaseUrl$url'),
-      headers: headerData ??
-          <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-      body: jsonEncode(bodyTag),
+      headers: headerData ?? {'Content-Type': 'application/json'},
+      body: isServer ? bodyTag : jsonEncode(bodyTag),
     );
-
     final jsonResponse = json.decode(response.body);
-    log("$jsonResponse", name: "response post");
+
     isLoading.value = false;
     return jsonResponse;
   }

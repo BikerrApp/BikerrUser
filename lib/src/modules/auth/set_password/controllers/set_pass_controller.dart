@@ -2,11 +2,13 @@
 
 import 'dart:developer';
 
-import 'package:bikerr_partner_app/src/modules/auth/login/login.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../login/login.dart';
 
 class SetPasswordController extends GetxController {
   final passCntrl = TextEditingController().obs;
@@ -28,22 +30,30 @@ class SetPasswordController extends GetxController {
   }
 
   registerUserOnServer() async {
-    var response = await HttpService.post(
-      "users",
-      isLoading: isRegister,
-      isServer: true,
-      bodyTag: {
-        "name": Get.arguments["user_name"],
-        "email": Get.arguments["user_id"],
-        "phone": Get.arguments["mobile_number"],
-        "password": passCntrl.value.value.text.trim().trimLeft().trimRight(),
-        "twelveHourFormat": "true",
-      },
-    );
+    var response =
+        await HttpService.postServer("users", isLoading: isRegister, bodyTag: {
+      "name": Get.arguments["user_name"],
+      "email": Get.arguments["user_id"],
+      "phone": Get.arguments["mobile_number"],
+      "password": passCntrl.value.value.text.trim().trimLeft().trimRight(),
+      "twelveHourFormat": "true",
+    }, headerData: {
+      'content-type': 'application/json; charset=utf-8',
+    });
+    return response;
     log("$response", name: "register response");
   }
 
   setPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //    print('${prefs.getStringList('token')}');
+    var token = prefs.getString('currentToken');
+    print('____password ${{
+      'password': passCntrl.value.value.text.trim().trimLeft().trimRight(),
+      'password_confirmation':
+          conPassCntrl.value.value.text.trim().trimLeft().trimRight(),
+    }}');
+
     var response = await HttpService.post(
       "password-set",
       isLoading: isSetPassword,
@@ -52,13 +62,24 @@ class SetPasswordController extends GetxController {
         'password_confirmation':
             conPassCntrl.value.value.text.trim().trimLeft().trimRight(),
       },
-      headerData: {'Authorization': 'Bearer ${Get.arguments["token"]}'},
+      headerData: {
+        'Authorization': 'Bearer $token',
+        'content-type': 'application/json; charset=utf-8',
+      },
     );
-    var traccarResponse = await registerUserOnServer();
-    log("$traccarResponse", name: "trac response");
-    log("$response", name: "set response");
-    if (response["response"] == "success") {
-      Get.offAll(() => const LoginScreen());
+    print('____password $response');
+
+    if (response['status_code'] == 200) {
+      print('____password $response');
+      var traccarResponse = await registerUserOnServer();
+      log(traccarResponse.body, name: "trac response");
+      log("$response", name: "set response");
+      //TODO bikerr. in pass-
+      if (traccarResponse["response"] == "success") {
+        Get.offAll(() => const LoginScreen());
+      }
+    } else {
+      getToast(response['message']);
     }
   }
 }

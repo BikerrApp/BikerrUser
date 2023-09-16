@@ -2,11 +2,13 @@
 
 import 'dart:developer';
 
-import 'package:bikerr_partner_app/src/modules/auth/set_password/set_password.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../set_password/set_password.dart';
 
 class SignUpController extends GetxController {
   final userIdCntrl = TextEditingController().obs;
@@ -39,23 +41,28 @@ class SignUpController extends GetxController {
   }
 
   signupTap() async {
-    var response = await HttpService.post(
-      "register",
-      isLoading: isSignup,
-      bodyTag: {
-        'user_id': userIdCntrl.value.value.text.trim().trimLeft().trimRight(),
-        'user_name':
-            userNameCntrl.value.value.text.trim().trimLeft().trimRight(),
-        'email': emailCntrl.value.value.text.trim().trimLeft().trimRight(),
-        'mobile_number':
-            mobNumberCntrl.value.value.text.trim().trimLeft().trimRight(),
-      },
-    );
+    print('___ay resgister tracee');
+    var response = await HttpService.post("register",
+        isLoading: isSignup,
+        bodyTag: {
+          'user_id': userIdCntrl.value.value.text.trim().trimLeft().trimRight(),
+          'user_name':
+              userNameCntrl.value.value.text.trim().trimLeft().trimRight(),
+          'email': emailCntrl.value.value.text.trim().trimLeft().trimRight(),
+          'mobile_number':
+              mobNumberCntrl.value.value.text.trim().trimLeft().trimRight(),
+        },
+        isServer: false);
+    print('___ay $response');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     log("$response", name: "register");
 
     if (response["response"] == "error") {
       getToast("${response["message"]}");
     } else {
+      await prefs.setString('currentToken', response['data']['token']);
+
       log("${response["data"]}", name: "register");
       log("${response["data"]["token"]}", name: "register token");
       String token = response["data"]["token"];
