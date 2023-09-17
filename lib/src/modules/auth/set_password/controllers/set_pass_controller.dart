@@ -72,10 +72,10 @@ class SetPasswordController extends GetxController {
     if (response['status_code'] == 200) {
       print('____password $response');
       var traccarResponse = await registerUserOnServer();
-      log(traccarResponse.body, name: "trac response");
+      log(traccarResponse.statusCode.toString(), name: "trac response");
       log("$response", name: "set response");
       //TODO bikerr. in pass-
-      if (traccarResponse["response"] == "success") {
+      if (traccarResponse.statusCode.toString() == "200") {
         Get.offAll(() => const LoginScreen());
       }
     } else {
