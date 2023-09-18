@@ -1,6 +1,7 @@
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
 import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
+import 'package:bikerr_partner_app/src/utils/widgets/common/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,17 +20,24 @@ class BaseBottomNavComp extends StatelessWidget {
       return SizedBox(
         height: 70.h,
         child: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               icon: ImageIcon(AssetImage(homeIcon)),
               label: "Home",
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: ImageIcon(AssetImage(mapIcon)),
               label: "Track",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle_outlined),
+              icon: Obx(() {
+                return bmc.hc.userDetailsData.isNotEmpty
+                    ? UserImageComp(
+                        radius: 10.r,
+                        imagePath: bmc.hc.userDetailsData.first["user_image"],
+                      )
+                    : const Icon(Icons.supervised_user_circle_outlined);
+              }),
               label: "Profile",
             ),
           ],
