@@ -59,7 +59,7 @@ class LoginController extends GetxController {
         'password': password.value.value.text.trim().trimLeft().trimRight(),
       },
       headerData: {'Content-Type': 'application/json'},
-      isLoading: isBikerLogin,
+      isLoading: isLogin,
     );
     log("$response", name: "responseBikkerLogin");
     return response;
