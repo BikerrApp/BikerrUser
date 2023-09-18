@@ -18,7 +18,7 @@ class BikeDetailsComp extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10.h),
       child: GestureDetector(
         onTap: () {
-          Get.to(() => const BookingDetailsComp());
+          Get.to(() =>  BookingDetailsComp(bmc:bmc));
         },
         child: Container(
           decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bikerr_partner_app/src/modules/splash/splash_screen.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
+import 'package:bikerr_partner_app/src/services/sql_db_services.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ void main() async {
       systemNavigationBarColor: Colors.transparent,
     ),
   );
-
+  await SqlDBService.sqlDBServiceinstance.database;
   bool isLogin = (await SharedPreferencesServices.getBoolData(key: "isLoggedIn")) ?? false;
   await Traccar.getHeader();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(

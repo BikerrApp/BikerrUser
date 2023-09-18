@@ -1,4 +1,5 @@
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
+import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 import 'package:bikerr_partner_app/src/modules/home/widgets/booked_bike_details.dart';
 import 'package:bikerr_partner_app/src/modules/home/widgets/booking_user_details.dart';
 import 'package:bikerr_partner_app/src/modules/home/widgets/recieve_give_btn.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookingDetailsComp extends StatelessWidget {
-  const BookingDetailsComp({super.key});
+  final BaseController bmc;
+  const BookingDetailsComp({required this.bmc, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class BookingDetailsComp extends StatelessWidget {
               ],
             ),
             20.height,
-            const BookingUserDetailsComp(),
+             BookingUserDetailsComp(bmc:bmc),
             const Spacer(),
             const RecieveGiveBtnComp(isRecieve: false),
           ],

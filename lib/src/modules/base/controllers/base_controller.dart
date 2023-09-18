@@ -1,3 +1,4 @@
+import 'package:bikerr_partner_app/src/modules/add_bikes/controllers/add_bike_controller.dart';
 import 'package:bikerr_partner_app/src/modules/profile/controller/profile_controller.dart';
 import 'package:bikerr_partner_app/src/modules/profile/user_profile.dart';
 import 'package:bikerr_partner_app/src/modules/socket_handling/socket_controller.dart';
@@ -13,6 +14,7 @@ class BaseController extends GetxController {
   final pc = Get.put(ProfileController());
   final mapC = Get.put(MapController());
   final sockC = Get.put(SocketController());
+  final ac = Get.put(AddBikeController());
 
   final onTapChangePageIndex = 0.obs;
   final pageController = PageController().obs;

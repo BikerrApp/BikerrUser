@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 class Traccar {
   static final headers = Rx<Map<String, String>>({});
+  static final apiToken = Rxn<String>();
 
   static Future<http.Response?> login({
     required userId,
@@ -28,8 +29,6 @@ class Traccar {
       await updateCookie(response);
 
       if (response.statusCode == 200) {
-        print('___ay r200');
-
         await SharedPreferencesServices.setStringData(
             key: 'email', value: userId);
         await SharedPreferencesServices.setStringData(
@@ -110,15 +109,14 @@ class Traccar {
   static setHeader(header) async {
     var headerString = jsonEncode(header);
     log(headerString, name: "dhsfhasjdfhks");
-    await SharedPreferencesServices.setStringData(
-        key: "headers", value: headerString);
+    await SharedPreferencesServices.setStringData(key: "headers", value: headerString);
     log("${await SharedPreferencesServices.getStringData(key: "headers")}",
         name: "dsagsdgasdfgasg");
   }
 
   static getHeader() async {
-    var headerData =
-        await SharedPreferencesServices.getStringData(key: "headers");
+    var headerData = await SharedPreferencesServices.getStringData(key: "headers");
+    var apiT = await SharedPreferencesServices.getStringData(key: "apiToken");
     log("$headerData", name: "svsavsvsv");
     if (headerData != null) {
       Map<String, dynamic> decodedData = jsonDecode(headerData);
@@ -126,6 +124,7 @@ class Traccar {
 
       log("$h", name: "svsavsvsv");
       headers.value = h;
+      apiToken.value = apiT;
     } else {
       log("no header data found");
     }

@@ -13,9 +13,14 @@ class BookedBikesExpandedComp extends StatelessWidget {
     return Scaffold(
       appBar: commonAppBar(title: "Upcoming Bookings"),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.all(20.r),
-          child: BookedBikesListingComp(bmc: bmc, listLength: 13),
+          child: BookedBikesListingComp(
+            bmc: bmc,
+            listLength: 13,
+            list: const [],
+          ),
         ),
       ),
     );

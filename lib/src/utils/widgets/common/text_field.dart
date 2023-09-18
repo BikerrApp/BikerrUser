@@ -13,6 +13,7 @@ class CustomTextfieldComp extends StatelessWidget {
   final String hintText;
   final String suffixIcon;
   final bool obscureText;
+  final bool isExpanded;
   const CustomTextfieldComp({
     required this.title,
     required this.controller,
@@ -21,6 +22,7 @@ class CustomTextfieldComp extends StatelessWidget {
     required this.hintText,
     this.suffixIcon = "",
     this.obscureText = false,
+    this.isExpanded = false,
     super.key,
   });
 
@@ -42,6 +44,8 @@ class CustomTextfieldComp extends StatelessWidget {
             fontSize: 14.sp,
           ),
           decoration: InputDecoration(
+              filled: true,
+              fillColor: blackColor,
               hintText: hintText,
               hintStyle: TextStyle(
                 fontWeight: FontWeight.w300,
@@ -58,8 +62,9 @@ class CustomTextfieldComp extends StatelessWidget {
               ),
               suffixIcon: Padding(
                 padding: EdgeInsets.all(12.r),
-                child:
-                    suffixIcon.isNotEmpty ? SvgPicture.asset(suffixIcon) : null,
+                child: suffixIcon.isNotEmpty
+                    ? SvgPicture.asset(suffixIcon)
+                    : null,
               )),
         ),
       ],

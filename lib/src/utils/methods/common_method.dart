@@ -41,7 +41,7 @@ String convertDuration(int duration) {
 LatLngBounds boundsFromLatLngList(List<dynamic> list) {
   assert(list.isNotEmpty);
   double? x0, x1, y0, y1;
-  list.forEach((value) {
+  for (var value in list) {
     if (x0 == null) {
       x0 = x1 = value.latitude;
       y0 = y1 = value.longitude;
@@ -51,7 +51,7 @@ LatLngBounds boundsFromLatLngList(List<dynamic> list) {
       if (value.longitude > y1) y1 = value.longitude;
       if (value.longitude < y0) y0 = value.longitude;
     }
-  });
+  }
   return LatLngBounds(northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
 }
 

@@ -7,11 +7,13 @@ class MediumTextComp extends StatelessWidget {
   final double size;
   final Color? color;
   final bool isDecorate;
+  final bool isCenter;
   const MediumTextComp({
     required this.data,
     this.size = 20,
     this.color,
     this.isDecorate = false,
+    this.isCenter = false,
     super.key,
   });
 
@@ -19,6 +21,7 @@ class MediumTextComp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
+      textAlign: isCenter ? TextAlign.center: TextAlign.start,
       style: TextStyle(
         fontWeight: FontWeight.normal,
         color: color ?? whiteColor,

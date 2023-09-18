@@ -49,14 +49,14 @@ class HttpService {
     required RxBool isLoading,
   }) async {
     isLoading.value = true;
-    print('___ay $bodyTag');
+
 
     final response = await http.post(
       Uri.parse('$serverUrl$url'),
       headers: headerData,
       body: url == 'users' ? jsonEncode(bodyTag) : bodyTag,
     );
-    print('___ay ${response.body}');
+
 
     isLoading.value = false;
     return response;

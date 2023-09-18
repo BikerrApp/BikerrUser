@@ -5,7 +5,6 @@ import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/buttons/edit_btn.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/texts/medium_text_comp.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -88,7 +87,10 @@ class MyListingListComp extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    EditButtonComp(onTap: () {}),
+                    EditButtonComp(
+                      onTap: () {},
+                      isInvert: true,
+                    ),
                   ],
                 ),
               ),

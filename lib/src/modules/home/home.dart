@@ -27,7 +27,11 @@ class HomeScreen extends StatelessWidget {
             10.height,
             TitleAndButtonComp(bmc: bmc),
             10.height,
-            BookedBikesListingComp(bmc: bmc, listLength: 3),
+            BookedBikesListingComp(
+              bmc: bmc,
+              listLength: 3,
+              list: bmc.hc.bookedAndTakenBikeData,
+            ),
           ],
         ),
       ),
