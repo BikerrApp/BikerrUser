@@ -32,12 +32,18 @@ class OptionListingComp extends StatelessWidget {
                 children: [
                   Image.asset(
                     "${bmc.hc.optionList[index]["icon"]}",
-                    height: 60.h,
+                    height: index == 3 ? 55.h : 60.h,
                   ),
                   MediumTextComp(
                     data: "${bmc.hc.optionList[index]["name"]}",
                     size: 14,
-                  )
+                  ),
+                  index == 3
+                      ? MediumTextComp(
+                          data: "Rs. ${bmc.hc.totalEarnings.value}",
+                          size: 12,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

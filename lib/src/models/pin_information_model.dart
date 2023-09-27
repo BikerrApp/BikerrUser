@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:bikerr_partner_app/src/models/device_model.dart';
-import 'package:mappls_gl/mappls_gl.dart';
+import 'package:mapmyindia_gl/mapmyindia_gl.dart';
+
 
 class PinInformation {
   String? address;

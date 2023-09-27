@@ -1,0 +1,92 @@
+PODS:
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
+  - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - geolocator_apple (1.2.0):
+    - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - mapmyindia_gl (0.3.0):
+    - Flutter
+    - MapmyIndiaAnnotationExtension/Base (~> 0.0.4)
+    - MapmyIndiaAPIKit (~> 1.5.0)
+    - MapmyIndiaDirections/Base (~> 0.24.0)
+    - MapmyIndiaGeoanalytics/Base (~> 0.1.0)
+    - MapmyIndiaMaps/Base (~> 5.12.0)
+  - MapmyIndiaAnnotationExtension/Base (0.0.4)
+  - MapmyIndiaAPIKit (1.5.1)
+  - MapmyIndiaDirections/Base (0.24.0)
+  - MapmyIndiaGeoanalytics/Base (0.1.0)
+  - MapmyIndiaMaps/Base (5.12.0)
+  - permission_handler_apple (9.1.1):
+    - Flutter
+  - ReachabilitySwift (5.0.0)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - sqflite (0.0.3):
+    - Flutter
+    - FMDB (>= 2.7.5)
+
+DEPENDENCIES:
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - Flutter (from `Flutter`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - mapmyindia_gl (from `.symlinks/plugins/mapmyindia_gl/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+
+SPEC REPOS:
+  trunk:
+    - FMDB
+    - MapmyIndiaAnnotationExtension
+    - MapmyIndiaAPIKit
+    - MapmyIndiaDirections
+    - MapmyIndiaGeoanalytics
+    - MapmyIndiaMaps
+    - ReachabilitySwift
+
+EXTERNAL SOURCES:
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
+  Flutter:
+    :path: Flutter
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
+  mapmyindia_gl:
+    :path: ".symlinks/plugins/mapmyindia_gl/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
+
+SPEC CHECKSUMS:
+  connectivity_plus: 07c49e96d7fc92bc9920617b83238c4d178b446a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  mapmyindia_gl: dba45ac0195cedd4e6dc1f0c3955681d0ebcf7e7
+  MapmyIndiaAnnotationExtension: f12c054fb876b66e38a908cdbfbd26f073dad170
+  MapmyIndiaAPIKit: 4af82f9e49c845842576eedfb4067b656b9aa76d
+  MapmyIndiaDirections: 2d5f41fe85c80ac674cd3915015ce8249d33674b
+  MapmyIndiaGeoanalytics: 4f58d4bb51189ded49a0a60e2055c6e8779c0d1e
+  MapmyIndiaMaps: b313f0bf9a98fa831dc10be7b049e8244ba7959b
+  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
+  sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
+
+PODFILE CHECKSUM: a2e66547fec0985975052b0fe5579526486806a9
+
+COCOAPODS: 1.12.1

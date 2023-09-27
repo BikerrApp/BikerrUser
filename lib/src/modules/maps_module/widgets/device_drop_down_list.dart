@@ -34,17 +34,50 @@ class DeviceDropDownListComp extends StatelessWidget {
                     padding: EdgeInsets.all(15.r),
                     child: Column(
                       children: [
+                        GestureDetector(
+                          onTap: () async {
+                            bmc.mapC.dc.isMyLocation.value = true;
+                            bmc.mapC.dc.selectedDeviceId.value = -1;
+                            bmc.mapC.dc.deviceValue.value = "Your Location";
+                            await bmc.mapC.moveToMyLocation();
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w, vertical: 5.h),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: dGreyColor,
+                                  border: Border.all(
+                                      color: bmc.mapC.dc.isMyLocation.value
+                                          ? redColor
+                                          : dGreyColor),
+                                  borderRadius: BorderRadius.circular(15.r),
+                                ),
+                                width: double.infinity,
+                                height: 65.h,
+                                child: const Center(
+                                  child: MediumTextComp(
+                                    size: 12,
+                                    data: "This Device",
+                                  ),
+                                ),
+                              )),
+                        ),
                         ...List.generate(
                           bmc.mapC.dc.devicesList.value!.length,
                           (index) => GestureDetector(
                             onTap: () {
-                              bmc.mapC.dc.selectedDeviceId.value = bmc.mapC.dc.devicesList.value![index].id!;
-                              bmc.mapC.dc.deviceValue.value = bmc.mapC.dc.devicesList.value![index].name!;
-                              bmc.mapC.moveToMarker(deviceId: bmc.mapC.dc.selectedDeviceId.value);
+                              bmc.mapC.dc.selectedDeviceId.value =
+                                  bmc.mapC.dc.devicesList.value![index].id!;
+                              bmc.mapC.dc.deviceValue.value =
+                                  bmc.mapC.dc.devicesList.value![index].name!;
+                              bmc.mapC.moveToMarker(
+                                  deviceId: bmc.mapC.dc.selectedDeviceId.value);
+                              bmc.mapC.dc.isMyLocation.value = false;
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w, vertical: 10.h),
+                                  horizontal: 8.w, vertical: 5.h),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: dGreyColor,

@@ -24,7 +24,7 @@ class AddressDetailsFormComp extends StatelessWidget {
             title: "Pickup Address *",
             controller: bmc.ac.pickUpAddressCntrl.value,
             textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.name,
+            keyboardType: TextInputType.streetAddress,
             hintText: "Enter Your Address",
             suffixIcon: locationOutlineIcon,
           ),

@@ -18,8 +18,9 @@ class BookedBikesExpandedComp extends StatelessWidget {
           padding: EdgeInsets.all(20.r),
           child: BookedBikesListingComp(
             bmc: bmc,
-            listLength: 13,
-            list: const [],
+            listLength: bmc.hc.upcommingBookingsData.length,
+            list: bmc.hc.upcommingBookingsData,
+            isLoading: bmc.hc.isUpcommingLoading,
           ),
         ),
       ),

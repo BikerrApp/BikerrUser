@@ -17,8 +17,10 @@ class BackgroundScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      // top: false,
       left: false,
       right: false,
+      bottom: false,
       child: Stack(
         children: [
           SizedBox(

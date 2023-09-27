@@ -25,7 +25,7 @@ class LoginFormComp extends StatelessWidget {
           title: "Password",
           controller: lc.password.value,
           textInputAction: TextInputAction.done,
-          keyboardType: TextInputType.name,
+          keyboardType: TextInputType.visiblePassword,
           hintText: "Enter Your Password",
           suffixIcon: lockIcon,
         ),

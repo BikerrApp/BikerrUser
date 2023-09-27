@@ -464,22 +464,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  mappls_gl:
+  mapmyindia_gl:
     dependency: "direct main"
     description:
-      name: mappls_gl
-      sha256: "4f5c398520bbc4599aa6eaf56a2529644b8d68045a13fae3a5ad99c6e24455d2"
+      name: mapmyindia_gl
+      sha256: "52756dab0966fa97dcb42501767b208001c7fdf64ea384c3116955e3179292c3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
-  mappls_gl_platform_interface:
+    version: "0.3.2"
+  mapmyindia_gl_platform_interface:
     dependency: transitive
     description:
-      name: mappls_gl_platform_interface
-      sha256: b9a47888ae4acfd01e7a9998d4b51aa49254d3dfc702e4c6dffc1f3d11c4b3dc
+      name: mapmyindia_gl_platform_interface
+      sha256: "6a19510ec1461c6a6556bc2beaecf61c7d94408670e604c56f235f50c7ef6ebc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "0.11.0"
   matcher:
     dependency: transitive
     description:

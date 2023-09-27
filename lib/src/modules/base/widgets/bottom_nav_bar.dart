@@ -18,7 +18,7 @@ class BaseBottomNavComp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return SizedBox(
-        height: 70.h,
+        height: 65.h,
         child: BottomNavigationBar(
           items: [
             const BottomNavigationBarItem(

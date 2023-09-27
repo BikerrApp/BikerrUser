@@ -43,12 +43,13 @@ class HomeController extends GetxController {
   final bookedAndTakenBikeData = [].obs;
   final upcommingBookingsData = [].obs;
   final myBikesListData = [].obs;
+  final totalEarnings = 0.obs;
 
   @override
   void onInit() async {
     await getUserProfile();
-    // await getBookedAndTakenBikes();
-    // await getUpcommingBookings();
+    await getBookedAndTakenBikes();
+    await getUpcommingBookings();
     // await getMyBikeList();
     super.onInit();
   }
@@ -79,6 +80,12 @@ class HomeController extends GetxController {
         headerData: {'Authorization': 'Bearer ${Traccar.apiToken.value}'},
       );
       log("$response", name: "haskdjfhkasjdf");
+      log("${response["status_code"]}", name: "haskdjfhkasjdf");
+      if (response["status_code"] == 200) {
+        bookedAndTakenBikeData.value = response["data"];
+        bookedAndTakenBikeData.value = bookedAndTakenBikeData.reversed.toList();
+        bookedAndTakenBikeData.refresh();
+      } else {}
     } catch (e) {
       log("$e");
     }
@@ -156,6 +163,12 @@ class HomeController extends GetxController {
       isLoading: isUpcommingLoading,
     );
     log("$response", name: "upcomming-booking");
+    if (response["status_code"] == 200) {
+      upcommingBookingsData.value = response["data"];
+      upcommingBookingsData.value = upcommingBookingsData.reversed.toList();
+      upcommingBookingsData.refresh();
+      totalEarnings.value = response["total_earing"];
+    } else {}
   }
 
   getMyBikeList() async {

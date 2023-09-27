@@ -12,20 +12,30 @@ class BikeRegistrationFormComp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(15.r),
+      padding: EdgeInsets.all(15.r),
       child: Column(
         children: [
           CustomTextfieldComp(
-            title: "Registration Number",
+            title: "Registration Number *",
             controller: bmc.ac.registrationNoCntrl.value,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
             hintText: "Enter Registration Number",
           ),
           20.height,
-          UploadMediaBtnComp(onTap: (){}, string: "Upload Your Front Registration Here"),
+          UploadMediaBtnComp(
+              onTap: () async {
+                await bmc.ac.uploadRegistrationFront();
+              },
+              imagePath: bmc.ac.registrationFrontSide,
+              string: "Upload Your Front Registration Here"),
           15.height,
-          UploadMediaBtnComp(onTap: (){}, string: "Upload Your Back Registration Here"),
+          UploadMediaBtnComp(
+              onTap: () async {
+                await bmc.ac.uploadRegistrationBack();
+              },
+              imagePath: bmc.ac.registrationBackSide,
+              string: "Upload Your Back Registration Here"),
         ],
       ),
     );

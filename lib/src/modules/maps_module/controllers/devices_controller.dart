@@ -22,6 +22,7 @@ class DevicesController extends GetxController {
   final positionsList = Rxn<List<PositionModel>>();
   final deviceLoading = false.obs;
   final positionLoading = false.obs;
+  final isMyLocation = true.obs;
 
   final moreControlsList = [
     {
@@ -50,7 +51,7 @@ class DevicesController extends GetxController {
     },
   ];
 
-  final deviceValue = "Add Device".obs;
+  final deviceValue = "Your Location".obs;
   final selectedDeviceId = Rx<int>(-1);
   final isListVisible = false.obs;
   final isEngineOn = false.obs;
@@ -133,7 +134,9 @@ class DevicesController extends GetxController {
         positionsList.value!.add(positionObj);
         devicesList.refresh();
         positionsList.refresh();
-      } else {}
+      } else {
+        log("$value error aagya hua nahi add device");
+      }
     });
   }
 }

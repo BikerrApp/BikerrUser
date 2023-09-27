@@ -25,6 +25,7 @@ class ProfileListComp extends StatelessWidget {
                   SvgPicture.asset(
                     bmc.pc.profileListData[index]["icon"]!,
                     height: 15.h,
+                    width: 15.h,
                     color: whiteColor,
                   ),
                   12.width,

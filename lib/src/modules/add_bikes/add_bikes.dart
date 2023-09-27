@@ -16,28 +16,42 @@ class AddBikeModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: commonAppBar(title: "Add Bike"),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Obx(() {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: bmc.ac.isDocumentInfo.value
-                ? [
-                    InfoRowItemComp(bmc: bmc),
-                    BikeRegistrationFormComp(bmc: bmc),
-                    BikeInsuranceFormComp(bmc: bmc),
-                    BikePollutionFormComp(bmc: bmc),
-                  ]
-                : [
-                    InfoRowItemComp(bmc: bmc),
-                    BikeDetailsFormComp(bmc: bmc),
-                    AddressDetailsFormComp(bmc: bmc),
-                    AddBikeImagesComp(bmc: bmc),
-                  ],
-          );
-        }),
+    return WillPopScope(
+      onWillPop: () async {
+        bmc.ac.isDocumentInfo.value = false;
+        Get.back();
+        return true;
+      },
+      child: Scaffold(
+        appBar: commonAppBar(
+          title: "Add Bike",
+          onPressed: () {
+            bmc.ac.isDocumentInfo.value = false;
+            Get.back();
+          },
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Obx(() {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: bmc.ac.isDocumentInfo.value
+                  ? [
+                      InfoRowItemComp(bmc: bmc),
+                      BikeRegistrationFormComp(bmc: bmc),
+                      BikeInsuranceFormComp(bmc: bmc),
+                      BikePollutionFormComp(bmc: bmc),
+                    ]
+                  : [
+                      InfoRowItemComp(bmc: bmc),
+                      BikeDetailsFormComp(bmc: bmc),
+                      AddressDetailsFormComp(bmc: bmc),
+                      AddBikeImagesComp(bmc: bmc),
+                    ],
+            );
+          }),
+        ),
       ),
     );
   }

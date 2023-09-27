@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
               bmc: bmc,
               listLength: 3,
               list: bmc.hc.bookedAndTakenBikeData,
+              isLoading: bmc.hc.isTakenBikesLoading,
             ),
           ],
         ),

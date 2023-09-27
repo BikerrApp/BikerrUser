@@ -31,7 +31,7 @@ class BikeInsuranceFormComp extends StatelessWidget {
             return Row(
               children: [
                 CustomRadioBtnComp(
-                  value: "yes",
+                  value: 1,
                   groupValue: bmc.ac.isInsurance.value,
                   onChanged: (e) {
                     bmc.ac.isInsurance.value = e;
@@ -40,7 +40,7 @@ class BikeInsuranceFormComp extends StatelessWidget {
                 ),
                 50.width,
                 CustomRadioBtnComp(
-                  value: "no",
+                  value: 0,
                   groupValue: bmc.ac.isInsurance.value,
                   onChanged: (e) {
                     bmc.ac.isInsurance.value = e;
@@ -59,7 +59,10 @@ class BikeInsuranceFormComp extends StatelessWidget {
           ),
           20.height,
           UploadMediaBtnComp(
-            onTap: () {},
+            onTap: () async {
+              await bmc.ac.uploadInsuranceDoc();
+            },
+            imagePath: bmc.ac.insuranceDocImage,
             string: "Upload Your Insurance Here",
           ),
           15.height,

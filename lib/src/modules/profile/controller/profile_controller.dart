@@ -42,6 +42,10 @@ class ProfileController extends GetxController {
       "icon": docOutlineIcon,
       "name": "Privacy Policy",
     },
+    {
+      "icon": docOutlineIcon,
+      "name": "Request Account Deletion",
+    },
   ];
 
   insertValues() async {
@@ -67,7 +71,7 @@ class ProfileController extends GetxController {
     log("$response");
   }
 
-  updateUserDataInDb({
+  updateUserData({
     required int id,
     required String userId,
     required String userName,
@@ -84,6 +88,19 @@ class ProfileController extends GetxController {
       image: image,
     );
     await bmc.hc.getUserDataFromDb();
+    var response = await HttpService.post(
+      "profile-update",
+      bodyTag: {
+        "user_name": userName,
+        "user_id": userId,
+        "email": email,
+        "mobile_number": mobileNumber,
+        "image": image, //file type
+      },
+      headerData: {'Authorization': 'Bearer ${Traccar.apiToken.value}'},
+      isLoading: isProfileUpdate,
+    );
+    log("$response", name: "sdlfhasd");
   }
 
   pickUserImage() async {
@@ -94,7 +111,7 @@ class ProfileController extends GetxController {
     int id =
         await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
 
-    await updateUserDataInDb(
+    await updateUserData(
       id: id,
       userId: userIdCntrl.value.value.text,
       userName: userNameCntrl.value.value.text,

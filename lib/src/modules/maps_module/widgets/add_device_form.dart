@@ -26,7 +26,9 @@ class AddDeviceFormComp extends StatelessWidget {
             controller: bmc.mapC.dc.uniqueIdCntrl.value,
             textInputAction: TextInputAction.next,
             keyboardType: const TextInputType.numberWithOptions(
-                decimal: false, signed: false),
+              decimal: false,
+              signed: false,
+            ),
             hintText: "Enter Device Uniq Id",
           ),
           25.height,
@@ -35,7 +37,9 @@ class AddDeviceFormComp extends StatelessWidget {
             controller: bmc.mapC.dc.mobileNumberCntrl.value,
             textInputAction: TextInputAction.next,
             keyboardType: const TextInputType.numberWithOptions(
-                decimal: false, signed: false),
+              decimal: false,
+              signed: false,
+            ),
             hintText: "Enter Mobile Number",
           ),
           25.height,
@@ -51,14 +55,17 @@ class AddDeviceFormComp extends StatelessWidget {
             title: "Device Contact",
             controller: bmc.mapC.dc.deviceContactCntrl.value,
             textInputAction: TextInputAction.done,
-            keyboardType: TextInputType.name,
+            keyboardType: const TextInputType.numberWithOptions(
+              decimal: false,
+              signed: false,
+            ),
             hintText: "Enter Device Contact",
           ),
           70.height,
           RedButtonComp(
             btnName: "Add Device",
             onTap: () {
-              bmc.mapC.dc.addNewDevice();
+              bmc.mapC.dc.validateAddingDevice();
             },
             isLoading: bmc.mapC.dc.isAddingDevice,
           ),

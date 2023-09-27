@@ -1,15 +1,15 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
-import 'package:mappls_gl/mappls_gl.dart';
+import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 String formatTime(String time) {
   DateTime lastUpdate = DateTime.parse(time);
   return DateFormat('dd-MM-yyyy hh:mm:ss aa').format(lastUpdate.toLocal());
 }
+
 double calculateDistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;
   var c = cos;
@@ -35,8 +35,6 @@ String convertDuration(int duration) {
   double minutes = duration % 3600000 / 60000;
   return "${hours.toInt()} hr ${minutes.toInt()} min";
 }
-
-
 
 LatLngBounds boundsFromLatLngList(List<dynamic> list) {
   assert(list.isNotEmpty);

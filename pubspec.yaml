@@ -24,7 +24,7 @@ dependencies:
   hexcolor: ^3.0.1
   http: ^1.1.0
   intl: 0.17.0
-  mappls_gl: ^1.0.0
+  mapmyindia_gl: ^0.3.2
   shared_preferences: ^2.2.1
   web_socket_channel: ^2.4.0
   sqflite: ^2.2.8+4

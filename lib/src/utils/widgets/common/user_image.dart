@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
-import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/buttons/edit_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +33,7 @@ class UserImageComp extends StatelessWidget {
                   fit: BoxFit.contain,
                 ).image
               : Image.asset(
-                  bikerrLogo,
+                  "assets/icons/1024.png",
                   fit: BoxFit.contain,
                 ).image,
         ),

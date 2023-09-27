@@ -10,7 +10,7 @@ import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:mappls_gl/mappls_gl.dart';
+import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 class MapController extends GetxController {
   final dc = Get.put(DevicesController());
@@ -22,7 +22,7 @@ class MapController extends GetxController {
     super.onInit();
   }
 
-  late final mapController = Rxn<MapplsMapController>();
+  late final mapController = Rxn<MapmyIndiaMapController>();
 
   final myLocationEnabled = true.obs;
   final polylineCoordinates = Rx<List<LatLng>>([]);
@@ -41,43 +41,50 @@ class MapController extends GetxController {
   );
 
   addMapSdkKeys() async {
-    MapplsAccountManager.setMapSDKKey("b23e147720a7e8233939f76daaeb2f05");
-    MapplsAccountManager.setRestAPIKey("b23e147720a7e8233939f76daaeb2f05");
-    MapplsAccountManager.setAtlasClientId(
+    MapmyIndiaAccountManager.setMapSDKKey("b23e147720a7e8233939f76daaeb2f05");
+    MapmyIndiaAccountManager.setRestAPIKey("b23e147720a7e8233939f76daaeb2f05");
+    MapmyIndiaAccountManager.setAtlasClientId(
         "33OkryzDZsIDH5oRuglAtHUxZBZFxa6JLiduqeU2YtWBpO4i0kmOeMj-CegHTXdC8HS0l_BwB6b--aV-vwK99DCgwkF7NP6L");
-    MapplsAccountManager.setAtlasClientSecret(
+    MapmyIndiaAccountManager.setAtlasClientSecret(
         "lrFxI-iSEg_UXnyUPaYW3NUkthwzkmPNpl8kzIIBXTZ87oqRzqxWlhpG0c74PAdIOZi65NdOPQysGfbcPdlg5OEs1X9q1gZNeidQQw5Gk9E=");
   }
 
-  Future<void> onMapCreated(MapplsMapController controller) async {
+  Future<void> onMapCreated(MapmyIndiaMapController controller) async {
     mapController.value = controller;
+    await moveToMyLocation();
+  }
+
+  moveToMyLocation() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
         forceAndroidLocationManager: true,
       );
       location.value = LatLng(position.latitude, position.longitude);
+      log("${location.value}", name: "asdgasdgsagsgsga");
     } catch (e) {
-      log("$e", name: "error hai bc");
+      log("$e", name: "error in map");
     }
     mapController.value!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: location.value!, zoom: 14),
       ),
     );
-    await addMyLocationMarker();
+    dc.isListVisible.value = false;
   }
 
-  addMyLocationMarker() async {
+  addMyLocationMarker({LatLng? geometry}) async {
     await addImageFromAsset("myLoc", myLocIcon, mapController.value!);
-    myLocSymbol.value = await mapController.value!.addSymbol(SymbolOptions(
-      geometry: location.value,
-      iconImage: "myLoc",
-    ));
+    myLocSymbol.value = await mapController.value!.addSymbol(
+      SymbolOptions(
+        geometry: geometry ?? location.value,
+        iconImage: "myLoc",
+        iconSize: 0.5,
+      ),
+    );
   }
 
-  moveToMarker({required int deviceId}) {
-    var deviceIdData =
-        bmc.sockC.srh.positionsData.value!.where((e) => e.deviceId == deviceId);
+  moveToMarker({required int deviceId}) async {
+    var deviceIdData = bmc.sockC.srh.positionsData.value!.where((e) => e.deviceId == deviceId);
     log("$deviceIdData", name: "asdfasdfasdf");
 
     if (deviceIdData.isNotEmpty &&
@@ -90,8 +97,15 @@ class MapController extends GetxController {
         ),
         zoom: 14,
       );
-      mapController.value!
-          .moveCamera(CameraUpdate.newCameraPosition(cPosition));
+      mapController.value!.animateCamera(
+        CameraUpdate.newCameraPosition(cPosition),
+      );
+      await addMyLocationMarker(
+        geometry: LatLng(
+          deviceIdData.first.latitude!,
+          deviceIdData.first.longitude!,
+        ),
+      );
 
       streetView.value = true;
       dc.isListVisible.value = false;
@@ -113,7 +127,7 @@ class MapController extends GetxController {
       case 2:
         return convertSpeed(deviceIdData.first.speed!);
       case 3:
-        return convertDuration(deviceIdData.first.attributes!["hours"]);
+        return /*convertDuration(deviceIdData.first.attributes!["hours"])*/ "";
       case 4:
         return "View";
       case 5:
