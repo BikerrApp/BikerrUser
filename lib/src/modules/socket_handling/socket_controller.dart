@@ -51,12 +51,15 @@ class SocketController extends GetxController {
       log("$event", name: "sjdhfhaskfhalskhfliashf");
       var data = json.decode(event);
       if (data["events"] != null) {
-        log("${srh.eventsData.value}", name: "qwewrqtrt");
+        //events
+        log("EVENTS --> ${data["events"]}", name: "satqwrasga");
       } else if (data["positions"] != null) {
-        log("${data["positions"]}", name: "satqwrasga");
+        //positions
+        log("POSITIONS --> ${data["positions"]}", name: "satqwrasga");
         srh.addPositionsFromSocket(positionData: data["positions"]);
       } else if (data["devices"] != null) {
-        log("${srh.devicesData.value}", name: "qwewrqtrt");
+        //devices
+        log("DEVICES --> ${data["devices"]}", name: "satqwrasga");
       }
     });
   }

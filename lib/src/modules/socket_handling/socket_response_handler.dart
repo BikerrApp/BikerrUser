@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class SocketResponseHandlerController extends GetxController {
   final devicesData = Rxn<List<Device>>();
-  final positionsData = Rxn<List<PositionModel>>();
+  final socketPositionsData = Rxn<List<PositionModel>>();
   final eventsData = Rxn<List<Event>>();
 
   addPositionsFromSocket({required dynamic positionData}) {
@@ -33,9 +33,9 @@ class SocketResponseHandlerController extends GetxController {
           valid: e["valid"],
         ));
     log("$posData", name: "sgfasgfsag");
-    positionsData.value = posData.toList();
-    positionsData.value = positionsData.value!.reversed.toList();
-    positionsData.refresh();
-    log("$positionsData", name: "sgfasgfsag");
+    socketPositionsData.value = posData.toList();
+    socketPositionsData.value = socketPositionsData.value!.reversed.toList();
+    socketPositionsData.refresh();
+    log("$socketPositionsData", name: "sgfasgfsag");
   }
 }

@@ -38,6 +38,7 @@ class HomeController extends GetxController {
   final isTakenBikesLoading = false.obs;
   final isUpcommingLoading = false.obs;
   final isMyBikesLoading = false.obs;
+  final isNotificationsLoading = false.obs;
 
   final userDetailsData = [].obs;
   final bookedAndTakenBikeData = [].obs;
@@ -50,6 +51,7 @@ class HomeController extends GetxController {
     await getUserProfile();
     await getBookedAndTakenBikes();
     await getUpcommingBookings();
+    await getNotificationsType();
     // await getMyBikeList();
     super.onInit();
   }
@@ -178,5 +180,11 @@ class HomeController extends GetxController {
       isLoading: isMyBikesLoading,
     );
     log("$response", name: "mybikeslist");
+  }
+
+  getNotificationsType() async {
+    var nt =
+        await Traccar.getNotificationTypes(loading: isNotificationsLoading);
+    log("$nt", name: "jdflkjhasjkfhjkas");
   }
 }

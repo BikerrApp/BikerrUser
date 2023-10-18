@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 PreferredSize commonAppBar({
   void Function()? onPressed,
   required String title,
+  List<Widget>? actions,
 }) {
   return PreferredSize(
     preferredSize: Size(double.infinity, 50.h),
@@ -28,6 +29,7 @@ PreferredSize commonAppBar({
         color: redColor,
       ),
       centerTitle: false,
+      actions: actions,
     ),
   );
 }

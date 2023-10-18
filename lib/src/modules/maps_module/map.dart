@@ -3,7 +3,7 @@ import 'package:bikerr_partner_app/src/modules/maps_module/widgets/add_device_co
 import 'package:bikerr_partner_app/src/modules/maps_module/widgets/device_drop_down_list.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/widgets/map_my_india_comp.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/widgets/more_controls_comp.dart';
-import 'package:bikerr_partner_app/src/modules/maps_module/widgets/search_btn.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/widgets/notification_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -27,7 +27,7 @@ class MapScreenClass extends StatelessWidget {
                   : MainAxisAlignment.spaceBetween,
               children: [
                 AddDeviceComp(bmc: bmc),
-                SearchOnMapComp(bmc: bmc),
+                NotificationBtnComp(bmc: bmc),
               ],
             );
           }),

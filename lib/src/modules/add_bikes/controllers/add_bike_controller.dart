@@ -99,9 +99,12 @@ class AddBikeController extends GetxController {
   }
 
   validateDocumentInfo() async {
-    if(registrationNoCntrl.value.value.text.trim().isEmpty) return getToast("Bike Registration is required");
-    if(registrationFrontSide.value.path.isEmpty) return getToast("Bike Registration Front Side is required");
-    if(registrationBackSide.value.path.isEmpty) return getToast("Bike Registration Back Side is required");
+    if (registrationNoCntrl.value.value.text.trim().isEmpty)
+      return getToast("Bike Registration is required");
+    if (registrationFrontSide.value.path.isEmpty)
+      return getToast("Bike Registration Front Side is required");
+    if (registrationBackSide.value.path.isEmpty)
+      return getToast("Bike Registration Back Side is required");
     return await addBikeToServer();
   }
 
@@ -120,14 +123,14 @@ class AddBikeController extends GetxController {
         "image[]": bikeImagesList,
         "per_day_rent": rentCntrl.value.value.text.trim(),
         "registration_number": registrationNoCntrl.value.value.text.trim(),
-        "rc_front_image": registrationFrontSide.value,
-        "rc_back_image": registrationBackSide.value,
-        "insurance": isInsurance.value,
-        "insurance_number": insuranceNoCntrl.value,
-        "insurance_image": insuranceDocImage.value,
-        "pollution": isPollution.value,
+        "rc_front_image": registrationFrontSide.value.path,
+        "rc_back_image": registrationBackSide.value.path,
+        "insurance": isInsurance.value.toString(),
+        "insurance_number": insuranceNoCntrl.value.value.text.trim(),
+        "insurance_image": insuranceDocImage.value.path,
+        "pollution": isPollution.value.toString(),
         "pollution_number": pollutionNoCntrl.value.value.text.trim(),
-        "pollution_image": pollutionDocImage.value,
+        "pollution_image": pollutionDocImage.value.path,
       },
       isLoading: isDocumentLoading,
     );

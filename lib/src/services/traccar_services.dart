@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:bikerr_partner_app/src/models/device_model.dart';
+import 'package:bikerr_partner_app/src/models/geofence_model.dart';
 import 'package:bikerr_partner_app/src/models/position_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
+import 'package:bikerr_partner_app/src/utils/strings/url.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -79,6 +81,95 @@ class Traccar {
     return list.map((model) => PositionModel.fromJson(model)).toList();
   }
 
+  static Future<List> getNotificationTypes({required RxBool loading}) async {
+    headers.value['Accept'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "notifications/types",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+
+    Iterable list = json.decode(response);
+    return list.map((model) => PositionModel.fromJson(model)).toList();
+  }
+
+  static Future<List<GeofenceModel>?> getGeoFencesByUserID({
+    required RxBool loading,
+    required String userId,
+  }) async {
+    headers.value['Accept'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "geofences?userId=$userId",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+    log("$response", name: "lkajsdlkdasjklfas");
+
+    Iterable list = json.decode(response);
+    log("$list", name: "lkajsdlkdasjklfas");
+    return list.map((model) => GeofenceModel.fromJson(model)).toList();
+  }
+
+  static Future<List<GeofenceModel>?> getGeoFencesByDeviceID({
+    required String deviceId,
+    required RxBool loading,
+  }) async {
+    headers.value['Accept'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "geofences?deviceId=$deviceId",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+
+    Iterable list = json.decode(response);
+    return list.map((model) => GeofenceModel.fromJson(model)).toList();
+  }
+
+  static Future<http.Response> addPermission({
+    required String permission,
+    required RxBool loading,
+  }) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
+
+    final response = await HttpService.postServer(
+      "permissions",
+      isLoading: loading,
+      bodyTag: permission,
+      headerData: headers.value,
+    );
+    return response;
+  }
+
+  static Future<http.StreamedResponse> deletePermission(deviceId, fenceId,
+      {required RxBool loading}) async {
+    loading.value = true;
+    http.Request rq =
+        http.Request('DELETE', Uri.parse("${serverUrl}permissions"))..headers;
+    rq.headers.addAll(<String, String>{
+      "Accept": "application/json",
+      "Content-type": "application/json; charset=utf-8",
+      "cookie": headers.value['cookie'].toString()
+    });
+    rq.body = jsonEncode({"deviceId": deviceId, "geofenceId": fenceId});
+    loading.value = false;
+    return http.Client().send(rq);
+  }
+
+  static Future<http.Response> deleteGeofence(dynamic id,
+      {required RxBool loading}) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
+    loading.value = true;
+    final response = await http.delete(
+      Uri.parse("${serverUrl}geofences/$id"),
+      headers: headers.value,
+    );
+    loading.value = false;
+    return response;
+  }
+
   static Future<http.Response> sendCommands({
     required RxBool loading,
     required String command,
@@ -88,7 +179,7 @@ class Traccar {
     final response = await HttpService.postServer(
       "commands/send",
       bodyTag: command,
-      headerData: headers,
+      headerData: headers.value,
       isLoading: loading,
     );
     return response;
@@ -109,13 +200,15 @@ class Traccar {
   static setHeader(header) async {
     var headerString = jsonEncode(header);
     log(headerString, name: "dhsfhasjdfhks");
-    await SharedPreferencesServices.setStringData(key: "headers", value: headerString);
+    await SharedPreferencesServices.setStringData(
+        key: "headers", value: headerString);
     log("${await SharedPreferencesServices.getStringData(key: "headers")}",
         name: "dsagsdgasdfgasg");
   }
 
   static getHeader() async {
-    var headerData = await SharedPreferencesServices.getStringData(key: "headers");
+    var headerData =
+        await SharedPreferencesServices.getStringData(key: "headers");
     var apiT = await SharedPreferencesServices.getStringData(key: "apiToken");
     log("$headerData", name: "svsavsvsv");
     if (headerData != null) {

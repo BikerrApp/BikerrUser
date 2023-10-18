@@ -20,7 +20,7 @@ class AddDeviceComp extends StatelessWidget {
               child: Row(
                 children: [
                   MediumTextComp(
-                    data: bmc.mapC.dc.devicesList.value!.isNotEmpty
+                    data: bmc.mapC.dc.devicesList.value != null
                         ? bmc.mapC.dc.deviceValue.value
                         : "Add Device",
                     size: 14,

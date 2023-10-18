@@ -31,8 +31,7 @@ class SignUpController extends GetxController {
       return getToast("User Name Cannot Be empty");
     if (emailCntrl.value.value.text.trim().trimLeft().trimRight().isEmpty)
       return getToast("Email Cannot Be empty");
-    if (!isValidEmail(
-        emailCntrl.value.value.text.trim().trimLeft().trimRight()))
+    if (!isValidEmail(emailCntrl.value.value.text.trim().trimLeft().trimRight()))
       return getToast("Email is not valid");
     if (mobNumberCntrl.value.value.text.trim().trimLeft().trimRight().isEmpty)
       return getToast("Mobile Number Cannot Be empty");

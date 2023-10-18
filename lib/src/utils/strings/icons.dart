@@ -28,6 +28,9 @@ const String shareOutlineIcon = "assets/icons/share_outline.svg";
 const String lockOutlineIcon = "assets/icons/lock_outline.svg";
 const String deleteOutlineIcon = "assets/icons/trash.svg";
 
+const String reallocationIcon = "assets/icons/re_allocation.svg";
+
+
 const String cityOutlineIcon = "assets/icons/city_outlined.svg";
 const String locationOutlineIcon = "assets/icons/location_outlined.svg";
 const String arrowOutlineIcon = "assets/icons/arrow_outline.svg";

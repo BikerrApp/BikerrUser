@@ -14,6 +14,7 @@ import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 class MapController extends GetxController {
   final dc = Get.put(DevicesController());
+
   late final bmc = Get.find<BaseController>();
 
   @override
@@ -37,7 +38,7 @@ class MapController extends GetxController {
 
   final CameraPosition myLoc = const CameraPosition(
     target: LatLng(28.022936, 73.311913),
-    zoom: 13.5,
+    zoom: 18,
   );
 
   addMapSdkKeys() async {
@@ -84,7 +85,8 @@ class MapController extends GetxController {
   }
 
   moveToMarker({required int deviceId}) async {
-    var deviceIdData = bmc.sockC.srh.positionsData.value!.where((e) => e.deviceId == deviceId);
+    var deviceIdData = bmc.sockC.srh.socketPositionsData.value!
+        .where((e) => e.deviceId == deviceId);
     log("$deviceIdData", name: "asdfasdfasdf");
 
     if (deviceIdData.isNotEmpty &&
@@ -115,8 +117,8 @@ class MapController extends GetxController {
   }
 
   String getMoreControlsData(value, {required int deviceId}) {
-    var deviceIdData =
-        bmc.sockC.srh.positionsData.value!.where((e) => e.deviceId == deviceId);
+    var deviceIdData = bmc.sockC.srh.socketPositionsData.value!
+        .where((e) => e.deviceId == deviceId);
     log("$deviceIdData", name: "asdfasdfasdf");
 
     switch (value) {
@@ -127,7 +129,7 @@ class MapController extends GetxController {
       case 2:
         return convertSpeed(deviceIdData.first.speed!);
       case 3:
-        return /*convertDuration(deviceIdData.first.attributes!["hours"])*/ "";
+        return convertDuration(deviceIdData.first.attributes!["hours"]);
       case 4:
         return "View";
       case 5:
@@ -136,5 +138,40 @@ class MapController extends GetxController {
       default:
         return "";
     }
+  }
+
+  void addPolygon() async {
+    List<List<LatLng>> latlng = const [
+      <LatLng>[
+        LatLng(28.703900, 77.101318),
+        LatLng(28.703331, 77.102155),
+        LatLng(28.703905, 77.102761),
+        LatLng(28.704248, 77.102370),
+        LatLng(28.703900, 77.101318),
+      ]
+    ];
+    LatLngBounds latLngBounds = boundsFromLatLngList(latlng.first);
+    mapController.value!
+        .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds));
+    mapController.value!
+        .addFill(FillOptions(geometry: latlng, fillColor: "#3bb2d0"));
+  }
+
+  boundsFromLatLngList(List<LatLng> list) {
+    assert(list.isNotEmpty);
+    double? x0, x1, y0, y1;
+    for (LatLng latLng in list) {
+      if (x0 == null || x1 == null || y0 == null || y1 == null) {
+        x0 = x1 = latLng.latitude;
+        y0 = y1 = latLng.longitude;
+      } else {
+        if (latLng.latitude > x1) x1 = latLng.latitude;
+        if (latLng.latitude < x0) x0 = latLng.latitude;
+        if (latLng.longitude > y1) y1 = latLng.longitude;
+        if (latLng.longitude < y0) y0 = latLng.longitude;
+      }
+    }
+    return LatLngBounds(
+        northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
   }
 }

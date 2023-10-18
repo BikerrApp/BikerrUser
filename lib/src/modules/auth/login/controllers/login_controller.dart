@@ -34,6 +34,10 @@ class LoginController extends GetxController {
     var response = jsonDecode(responseData.body);
     log("$response", name: "login response");
     if (responseData.statusCode == 200) {
+      await SharedPreferencesServices.setIntData(
+        key: "userId",
+        value: response["id"],
+      );
       await SharedPreferencesServices.setBoolData(
         key: "isLoggedIn",
         value: true,

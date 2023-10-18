@@ -23,6 +23,7 @@ class DevicesController extends GetxController {
   final deviceLoading = false.obs;
   final positionLoading = false.obs;
   final isMyLocation = true.obs;
+  final deviceSpeed = 0.obs;
 
   final moreControlsList = [
     {
@@ -54,7 +55,9 @@ class DevicesController extends GetxController {
   final deviceValue = "Your Location".obs;
   final selectedDeviceId = Rx<int>(-1);
   final isListVisible = false.obs;
+
   final isEngineOn = false.obs;
+  final isEngineCommandChange = false.obs;
 
   final isAddingDevice = false.obs;
 
@@ -63,6 +66,28 @@ class DevicesController extends GetxController {
   final uniqueIdCntrl = TextEditingController().obs;
   final mobileNumberCntrl = TextEditingController().obs;
   final deviceContactCntrl = TextEditingController().obs;
+
+  sendEngineCommands() async {
+    await sendCommands(
+      reqCmd: isEngineOn.value ? "engineStop" : "engineResume",
+    );
+    isEngineOn.value = !isEngineOn.value;
+    Get.back();
+  }
+
+  sendCommands({required String reqCmd}) async {
+    var value = {
+      'deviceId': selectedDeviceId.value,
+      'type': reqCmd,
+    };
+    var command = json.encode(value);
+    await Traccar.sendCommands(
+      loading: isEngineCommandChange,
+      command: command,
+    ).then((res) {
+      log("$res", name: "adgasdagas");
+    });
+  }
 
   getAllDevices() async {
     await Traccar.getDevices(loading: deviceLoading).then(

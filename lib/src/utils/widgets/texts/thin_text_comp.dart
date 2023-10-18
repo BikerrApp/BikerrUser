@@ -6,13 +6,20 @@ class ThinTextComp extends StatelessWidget {
   final String data;
   final double size;
   final Color? color;
-  const ThinTextComp(
-      {required this.data, this.size = 12, this.color, super.key});
+  final bool isCenter;
+  const ThinTextComp({
+    required this.data,
+    this.size = 12,
+    this.color,
+    this.isCenter = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       data,
+      textAlign: isCenter ? TextAlign.center : TextAlign.start,
       style: TextStyle(
         fontWeight: FontWeight.w300,
         color: color ?? whiteColor,

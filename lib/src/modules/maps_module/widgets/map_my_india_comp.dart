@@ -12,19 +12,24 @@ class MapMyIndiaComp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return bmc.mapC.mapLoading.value
-          ? SpinKitSpinningLines(color: redColor)
-          : MapmyIndiaMap(
-              initialCameraPosition: bmc.mapC.myLoc,
-              onMapCreated: bmc.mapC.onMapCreated,
-              myLocationEnabled: false,
-              myLocationTrackingMode: MyLocationTrackingMode.None,
-              onUserLocationUpdated: (location) {},
-              onStyleLoadedCallback: () {
-                bmc.mapC.addMyLocationMarker();
-              },
-            );
-    });
+    return Obx(
+      () {
+        return bmc.mapC.mapLoading.value
+            ? SpinKitSpinningLines(color: redColor)
+            : MapmyIndiaMap(
+                initialCameraPosition: bmc.mapC.myLoc,
+                onMapCreated: bmc.mapC.onMapCreated,
+                myLocationEnabled: false,
+                myLocationTrackingMode: MyLocationTrackingMode.None,
+                onUserLocationUpdated: (location) {},
+                onStyleLoadedCallback: () {
+                  bmc.mapC.addMyLocationMarker();
+                },
+                onMapClick: (point, coordinates) {
+                  bmc.mapC.addPolygon();
+                },
+              );
+      },
+    );
   }
 }

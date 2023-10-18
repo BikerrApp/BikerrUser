@@ -15,13 +15,14 @@ class PasswordObscureComp extends StatelessWidget {
       children: [
         Obx(() {
           return Checkbox(
-              side: BorderSide(color: dGreyColor),
-              activeColor: redColor,
-              checkColor: dGreyColor,
-              value: sc.isObscure.value,
-              onChanged: (e) {
-                sc.isObscure.value = !sc.isObscure.value;
-              });
+            side: BorderSide(color: dGreyColor),
+            activeColor: redColor,
+            checkColor: dGreyColor,
+            value: sc.isObscure.value,
+            onChanged: (e) {
+              sc.isObscure.value = !sc.isObscure.value;
+            },
+          );
         }),
         const ThinTextComp(data: "Show Password"),
       ],

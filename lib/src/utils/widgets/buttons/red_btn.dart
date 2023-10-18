@@ -8,10 +8,12 @@ class RedButtonComp extends StatelessWidget {
   final String btnName;
   final void Function()? onTap;
   final RxBool isLoading;
+  final double? width;
   const RedButtonComp({
     required this.btnName,
     required this.onTap,
     required this.isLoading,
+    this.width,
     super.key,
   });
 
@@ -26,6 +28,7 @@ class RedButtonComp extends StatelessWidget {
           borderRadius: BorderRadius.circular(50.r),
         ),
         height: 45.h,
+        width: width,
         child: Obx(
           () {
             return Center(

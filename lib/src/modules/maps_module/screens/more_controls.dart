@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/screens/geo_fence_list_screen.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/widgets/engine_on_off.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
-import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/texts/medium_text_comp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,21 +33,7 @@ class MoreControlsScreen extends StatelessWidget {
                   const MediumTextComp(
                     data: "More Controls",
                   ),
-                  Obx(() {
-                    return GestureDetector(
-                      onTap: () {
-                        bmc.mapC.dc.isEngineOn.value =
-                            !bmc.mapC.dc.isEngineOn.value;
-                      },
-                      child: Image.asset(
-                        engineIcon,
-                        color: bmc.mapC.dc.isEngineOn.value
-                            ? greenColor
-                            : redColor,
-                        height: 30.h,
-                      ),
-                    );
-                  }),
+                  EngineOnOffBtnComp(bmc: bmc),
                 ],
               ),
             ),
@@ -88,24 +77,39 @@ class MoreControlsScreen extends StatelessWidget {
                                           color: blackColor,
                                         ),
                                         5.height,
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: HexColor("#EEEEEE"),
-                                            borderRadius:
-                                                BorderRadius.circular(50.r),
-                                          ),
-                                          height: 20.h,
-                                          width: 90.w,
-                                          child: Center(
-                                            child: MediumTextComp(
-                                              data:
-                                                  bmc.mapC.getMoreControlsData(
-                                                index,
-                                                deviceId: bmc.mapC.dc
-                                                    .selectedDeviceId.value,
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (index == 5) {
+                                              log("geo fence is selected",
+                                                  name: "hdsfkjahsdkfjhkjasf");
+                                              Get.to(
+                                                () =>
+                                                    const GeofenceListScreen(),
+                                              );
+                                            } else if (index == 4) {
+                                              log("history is selected",
+                                                  name: "hdsfkjahsdkfjhkjasf");
+                                            }
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: HexColor("#EEEEEE"),
+                                              borderRadius:
+                                                  BorderRadius.circular(50.r),
+                                            ),
+                                            height: 20.h,
+                                            width: 90.w,
+                                            child: Center(
+                                              child: MediumTextComp(
+                                                data: bmc.mapC
+                                                    .getMoreControlsData(
+                                                  index,
+                                                  deviceId: bmc.mapC.dc
+                                                      .selectedDeviceId.value,
+                                                ),
+                                                size: 11,
+                                                color: blackColor,
                                               ),
-                                              size: 11,
-                                              color: blackColor,
                                             ),
                                           ),
                                         ),

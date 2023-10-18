@@ -64,7 +64,9 @@ class DeviceDropDownListComp extends StatelessWidget {
                               )),
                         ),
                         ...List.generate(
-                          bmc.mapC.dc.devicesList.value!.length,
+                          bmc.mapC.dc.devicesList.value != null
+                              ? bmc.mapC.dc.devicesList.value!.length
+                              : 0,
                           (index) => GestureDetector(
                             onTap: () {
                               bmc.mapC.dc.selectedDeviceId.value =
@@ -74,6 +76,12 @@ class DeviceDropDownListComp extends StatelessWidget {
                               bmc.mapC.moveToMarker(
                                   deviceId: bmc.mapC.dc.selectedDeviceId.value);
                               bmc.mapC.dc.isMyLocation.value = false;
+                              bmc.mapC.dc.deviceSpeed.value = bmc
+                                  .sockC.srh.socketPositionsData.value!
+                                  .where((e) =>
+                                      e.deviceId ==
+                                      bmc.mapC.dc.devicesList.value![index]
+                                          .id!).first.speed!.toInt();
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(
@@ -131,7 +139,7 @@ class DeviceDropDownListComp extends StatelessWidget {
                             ),
                           ),
                         ),
-                        bmc.mapC.dc.devicesList.value!.isNotEmpty
+                        bmc.mapC.dc.devicesList.value != null
                             ? 30.height
                             : const SizedBox(),
                         GestureDetector(
@@ -155,7 +163,7 @@ class DeviceDropDownListComp extends StatelessWidget {
                             ),
                           ),
                         ),
-                        bmc.mapC.dc.devicesList.value!.isNotEmpty
+                        bmc.mapC.dc.devicesList.value != null
                             ? 10.height
                             : const SizedBox(),
                       ],

@@ -50,13 +50,11 @@ class HttpService {
   }) async {
     isLoading.value = true;
 
-
     final response = await http.post(
       Uri.parse('$serverUrl$url'),
       headers: headerData,
       body: url == 'users' ? jsonEncode(bodyTag) : bodyTag,
     );
-
 
     isLoading.value = false;
     return response;
