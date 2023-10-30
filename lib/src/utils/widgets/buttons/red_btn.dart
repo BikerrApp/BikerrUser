@@ -9,11 +9,13 @@ class RedButtonComp extends StatelessWidget {
   final void Function()? onTap;
   final RxBool isLoading;
   final double? width;
+  final bool isSmall;
   const RedButtonComp({
     required this.btnName,
     required this.onTap,
     required this.isLoading,
     this.width,
+    this.isSmall = false,
     super.key,
   });
 
@@ -34,7 +36,7 @@ class RedButtonComp extends StatelessWidget {
             return Center(
               child: isLoading.value
                   ? CircularProgressIndicator(color: whiteColor)
-                  : MediumTextComp(data: btnName, size: 18),
+                  : MediumTextComp(data: btnName, size: isSmall ? 12.sp : 18.sp),
             );
           },
         ),

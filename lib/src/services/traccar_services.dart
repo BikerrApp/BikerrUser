@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bikerr_partner_app/src/models/device_model.dart';
 import 'package:bikerr_partner_app/src/models/geofence_model.dart';
 import 'package:bikerr_partner_app/src/models/position_model.dart';
+import 'package:bikerr_partner_app/src/models/stop_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/utils/strings/url.dart';
@@ -79,6 +80,46 @@ class Traccar {
 
     Iterable list = json.decode(response);
     return list.map((model) => PositionModel.fromJson(model)).toList();
+  }
+
+  static Future<List<PositionModel>?> getPositions({
+    required RxBool loading,
+    required String deviceId,
+    required String from,
+    required String to,
+  }) async {
+    headers.value['Accept'] = "application/json";
+    headers.value['content-type'] = "application/json; charset=utf-8";
+    log("${serverUrl}positions?deviceId=$deviceId&from=$from&to=$to",
+        name: "kdjsfhksjfd");
+    log("http://bikerr.in:8082/api/positions?deviceId=8&from=2023-10-29T18:30:00.000Z&to=2023-10-30T18:30:00.000Z",
+        name: "kdjsfhksjfd");
+    final response = await HttpService.getServer(
+      "positions?deviceId=$deviceId&from=$from&to=$to",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+    log("$response", name: "kdjfkjdkfj");
+    Iterable list = json.decode(response);
+    return list.map((model) => PositionModel.fromJson(model)).toList();
+  }
+
+  static Future<List<Stop>?> getStops({
+    required RxBool loading,
+    required String deviceId,
+    required String from,
+    required String to,
+  }) async {
+    headers.value['Accept'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "reports/stops?deviceId=$deviceId&from=$from&to=$to",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+    log("$response", name: "kdjfkjdkfj");
+    Iterable list = json.decode(response);
+    return list.map((model) => Stop.fromJson(model)).toList();
   }
 
   static Future<List> getNotificationTypes({required RxBool loading}) async {

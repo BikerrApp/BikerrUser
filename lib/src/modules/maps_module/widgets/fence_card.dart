@@ -1,5 +1,6 @@
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/geo_fence_controller.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/screens/geofence_screen.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/buttons/red_btn.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/dialog_box.dart';
@@ -22,8 +23,7 @@ class FenceCardComp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(context, "/geofence",
-        //     arguments: FenceArguments(fence, args!.id, args!.name));
+        Get.to(() => GeofenceScreen(gc: gc,index:index));
       },
       child: Container(
         decoration: BoxDecoration(color: transblackColor),

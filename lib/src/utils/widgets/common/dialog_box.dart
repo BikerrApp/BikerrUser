@@ -21,15 +21,20 @@ dialogBox({
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-              child: MediumTextComp(data: title),
-            ),
-            Divider(
-              height: 0.h,
-              thickness: 2,
-              color: lGreyColor,
-            ),
+            title.isEmpty
+                ? const SizedBox()
+                : Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+                    child: MediumTextComp(data: title),
+                  ),
+            title.isEmpty
+                ? const SizedBox()
+                : Divider(
+                    height: 0.h,
+                    thickness: 2,
+                    color: lGreyColor,
+                  ),
             Padding(
               padding: EdgeInsets.all(20.r),
               child: SizedBox(
@@ -39,7 +44,6 @@ dialogBox({
                 ),
               ),
             ),
-            
           ],
         ),
       );

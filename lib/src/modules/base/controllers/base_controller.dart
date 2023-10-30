@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BaseController extends GetxController {
-  final ff = Get.put(PermissionHandlerController());
+  late final PermissionHandlerController ff;
+
   final hc = Get.put(HomeController());
   final pc = Get.put(ProfileController());
   final mapC = Get.put(MapController());
@@ -20,6 +21,12 @@ class BaseController extends GetxController {
 
   final onTapChangePageIndex = 0.obs;
   final pageController = PageController().obs;
+
+  @override
+  void onReady() {
+    ff = Get.put(PermissionHandlerController());
+    super.onReady();
+  }
 
   List<Widget> pages = [
     const HomeScreen(),

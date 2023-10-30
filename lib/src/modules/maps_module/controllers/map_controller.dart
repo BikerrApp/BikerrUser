@@ -4,6 +4,7 @@ import 'package:bikerr_partner_app/src/extensions/bitmap_convertor.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/devices_controller.dart';
+
 import 'package:bikerr_partner_app/src/utils/methods/common_method.dart';
 import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
 
@@ -14,6 +15,7 @@ import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 class MapController extends GetxController {
   final dc = Get.put(DevicesController());
+  
 
   late final bmc = Get.find<BaseController>();
 
@@ -55,7 +57,7 @@ class MapController extends GetxController {
     await moveToMyLocation();
   }
 
-  moveToMyLocation() async {
+  moveToMyLocation({LatLng? updatedLoc}) async {
     try {
       Position position = await Geolocator.getCurrentPosition(
         forceAndroidLocationManager: true,
@@ -67,7 +69,7 @@ class MapController extends GetxController {
     }
     mapController.value!.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: location.value!, zoom: 14),
+        CameraPosition(target: updatedLoc ?? location.value!, zoom: 14),
       ),
     );
     dc.isListVisible.value = false;
@@ -140,38 +142,5 @@ class MapController extends GetxController {
     }
   }
 
-  void addPolygon() async {
-    List<List<LatLng>> latlng = const [
-      <LatLng>[
-        LatLng(28.703900, 77.101318),
-        LatLng(28.703331, 77.102155),
-        LatLng(28.703905, 77.102761),
-        LatLng(28.704248, 77.102370),
-        LatLng(28.703900, 77.101318),
-      ]
-    ];
-    LatLngBounds latLngBounds = boundsFromLatLngList(latlng.first);
-    mapController.value!
-        .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds));
-    mapController.value!
-        .addFill(FillOptions(geometry: latlng, fillColor: "#3bb2d0"));
-  }
-
-  boundsFromLatLngList(List<LatLng> list) {
-    assert(list.isNotEmpty);
-    double? x0, x1, y0, y1;
-    for (LatLng latLng in list) {
-      if (x0 == null || x1 == null || y0 == null || y1 == null) {
-        x0 = x1 = latLng.latitude;
-        y0 = y1 = latLng.longitude;
-      } else {
-        if (latLng.latitude > x1) x1 = latLng.latitude;
-        if (latLng.latitude < x0) x0 = latLng.latitude;
-        if (latLng.longitude > y1) y1 = latLng.longitude;
-        if (latLng.longitude < y0) y0 = latLng.longitude;
-      }
-    }
-    return LatLngBounds(
-        northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
-  }
+  
 }

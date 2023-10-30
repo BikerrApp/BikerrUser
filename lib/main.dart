@@ -22,7 +22,8 @@ void main() async {
     ),
   );
   await SqlDBService.sqlDBServiceinstance.database;
-  bool isLogin = (await SharedPreferencesServices.getBoolData(key: "isLoggedIn")) ?? false;
+  bool isLogin =
+      (await SharedPreferencesServices.getBoolData(key: "isLoggedIn")) ?? false;
   await Traccar.getHeader();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) async => runApp(
@@ -56,7 +57,10 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (
+        X509Certificate cert,
+        String host,
+        int port,
+      ) => true;
   }
 }

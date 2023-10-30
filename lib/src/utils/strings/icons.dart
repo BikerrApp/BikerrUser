@@ -35,3 +35,7 @@ const String cityOutlineIcon = "assets/icons/city_outlined.svg";
 const String locationOutlineIcon = "assets/icons/location_outlined.svg";
 const String arrowOutlineIcon = "assets/icons/arrow_outline.svg";
 const String uploadOutlineIcon = "assets/icons/upload_outline.svg";
+
+
+const String routeStopIcon = "assets/icons/route_stop.png";
+const String arrowIcon = "assets/icons/arrow.png";

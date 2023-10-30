@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/screens/geo_fence_list_screen.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/widgets/engine_on_off.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/widgets/history_selection_dialog.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
+import 'package:bikerr_partner_app/src/utils/widgets/common/dialog_box.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/texts/medium_text_comp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,15 +80,22 @@ class MoreControlsScreen extends StatelessWidget {
                                         GestureDetector(
                                           onTap: () {
                                             if (index == 5) {
-                                              log("geo fence is selected",
-                                                  name: "hdsfkjahsdkfjhkjasf");
                                               Get.to(
-                                                () =>
-                                                    const GeofenceListScreen(),
-                                              );
+                                                  () =>
+                                                      const GeofenceListScreen(),
+                                                  arguments: {
+                                                    "deviceId": bmc.mapC.dc
+                                                        .selectedDeviceId.value,
+                                                    "deviceName": bmc.mapC.dc
+                                                        .deviceValue.value,
+                                                  });
                                             } else if (index == 4) {
-                                              log("history is selected",
-                                                  name: "hdsfkjahsdkfjhkjasf");
+                                              dialogBox(
+                                                title: "Select Duration",
+                                                centerChild:
+                                                    HistorySelectionDialogComp(
+                                                        bmc: bmc),
+                                              );
                                             }
                                           },
                                           child: Container(
@@ -99,6 +106,8 @@ class MoreControlsScreen extends StatelessWidget {
                                             ),
                                             height: 20.h,
                                             width: 90.w,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 6.w),
                                             child: Center(
                                               child: MediumTextComp(
                                                 data: bmc.mapC
@@ -109,6 +118,7 @@ class MoreControlsScreen extends StatelessWidget {
                                                 ),
                                                 size: 11,
                                                 color: blackColor,
+                                                isOverflow: true,
                                               ),
                                             ),
                                           ),

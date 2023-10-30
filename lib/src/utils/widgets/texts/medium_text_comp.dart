@@ -8,12 +8,14 @@ class MediumTextComp extends StatelessWidget {
   final Color? color;
   final bool isDecorate;
   final bool isCenter;
+  final bool isOverflow;
   const MediumTextComp({
     required this.data,
     this.size = 20,
     this.color,
     this.isDecorate = false,
     this.isCenter = false,
+    this.isOverflow = false,
     super.key,
   });
 
@@ -21,8 +23,10 @@ class MediumTextComp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
-      textAlign: isCenter ? TextAlign.center: TextAlign.start,
+      textAlign: isCenter ? TextAlign.center : TextAlign.start,
+      maxLines: isOverflow ? 1 : null,
       style: TextStyle(
+        overflow: isOverflow ? TextOverflow.ellipsis : null,
         fontWeight: FontWeight.normal,
         color: color ?? whiteColor,
         fontSize: size.sp,

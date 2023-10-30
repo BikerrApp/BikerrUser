@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:mapmyindia_gl/mapmyindia_gl.dart';
@@ -75,6 +77,55 @@ Future<BitmapDescriptor> getBitmapDescriptorFromAssetBytes(
   final Uint8List? imageData = await getBytesFromAsset(path, width);
   return BitmapDescriptor.fromBytes(imageData!);
 }*/
+
+
+
+Future<void> selectFromDate(DateTime selectedDate) async {
+  final DateTime? picked = await showDatePicker(
+    context: Get.context!,
+    initialDate: selectedDate,
+    firstDate: DateTime(2015),
+    lastDate: DateTime(2101),
+  );
+  if (picked != null && picked != selectedDate) selectedDate = picked;
+}
+
+Future<void> selectToDate(DateTime selectedDate) async {
+  final DateTime? picked = await showDatePicker(
+      context: Get.context!,
+      initialDate: selectedDate,
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2101));
+  if (picked != null && picked != selectedDate) selectedDate = picked;
+}
+
+Future<void> selectToTime(TimeOfDay selectedTime) async {
+  final TimeOfDay? picked = await showTimePicker(
+    context: Get.context!,
+    initialTime: TimeOfDay.now(),
+    builder: (BuildContext context, Widget? child) {
+      return Directionality(
+        textDirection: m.TextDirection.rtl,
+        child: child ?? const SizedBox(),
+      );
+    },
+  );
+  if (picked != null && picked != selectedTime) selectedTime = picked;
+}
+
+Future<void> selectFromTime(TimeOfDay selectedTime) async {
+  final TimeOfDay? picked = await showTimePicker(
+    context: Get.context!,
+    initialTime: TimeOfDay.now(),
+    builder: (BuildContext context, Widget? child) {
+      return Directionality(
+        textDirection: m.TextDirection.rtl,
+        child: child ?? const SizedBox(),
+      );
+    },
+  );
+  if (picked != null && picked != selectedTime) selectedTime = picked;
+}
 
 String formatReportDate(DateTime date) {
   return DateFormat('dd-MM-yyyy').format(date.toLocal());
