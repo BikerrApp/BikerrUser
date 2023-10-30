@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "294182998026",
+    "project_id": "bikerr-49490",
+    "storage_bucket": "bikerr-49490.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294182998026:android:86ea97e18b6eaf8b1e4ff3",
+        "android_client_info": {
+          "package_name": "com.bikerr.bikerr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294182998026-p14b5l4hp8jj5gftqtdins0704f1nnb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATkKubb4VblISlvyfguTmCKP-g1avH-vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294182998026-p14b5l4hp8jj5gftqtdins0704f1nnb9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294182998026-agl6m13ngu89ns3ilc9r82f64rsi892g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bikerr.bikerr"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294182998026:android:5fe50025814cbed41e4ff3",
+        "android_client_info": {
+          "package_name": "com.stardust.bikerr.bikerrPartner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294182998026-p14b5l4hp8jj5gftqtdins0704f1nnb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATkKubb4VblISlvyfguTmCKP-g1avH-vA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294182998026-p14b5l4hp8jj5gftqtdins0704f1nnb9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294182998026-agl6m13ngu89ns3ilc9r82f64rsi892g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bikerr.bikerr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
