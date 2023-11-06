@@ -2,6 +2,7 @@ import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/geo_fence_controller.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/screens/geofence_screen.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
+
 import 'package:bikerr_partner_app/src/utils/widgets/buttons/red_btn.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/dialog_box.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/texts/medium_text_comp.dart';
@@ -21,90 +22,70 @@ class FenceCardComp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(() => GeofenceScreen(gc: gc,index:index));
-      },
-      child: Container(
-        decoration: BoxDecoration(color: transblackColor),
-        padding: EdgeInsets.all(10.r),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            MediumTextComp(
-              data: "${gc.fenceList[index].name}",
-              size: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ListTile(
+      tileColor: greyColor,
+      leading: Obx(() {
+        return Checkbox(
+          side: BorderSide(color: dGreyColor),
+          activeColor: redColor,
+          checkColor: dGreyColor,
+          value: gc.fenceCheckboxValue(fenceId: gc.fenceList[index].id!),
+          onChanged: (v) {
+            gc.fenceCheckboxChange(v, gc.fenceList[index].id);
+          },
+        );
+      }),
+      title: MediumTextComp(
+        data: "${gc.fenceList[index].name}",
+        size: 16.sp,
+      ),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.delete_outline,
+          color: whiteColor,
+        ),
+        onPressed: () {
+          dialogBox(
+            title: "Delete Fence",
+            centerChild: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Checkbox(
-                    side: BorderSide(color: dGreyColor),
-                    activeColor: redColor,
-                    checkColor: dGreyColor,
-                    value: gc.selectedFenceList.isNotEmpty
-                        ? gc.selectedFenceList.contains(gc.fenceList[index].id)
-                            ? true
-                            : false
-                        : false,
-                    onChanged: (value) {
-                      if (value != null) {
-                        if (value) {
-                          gc.updateFence(gc.fenceList[index].id);
-                        } else {
-                          gc.removeFence(gc.fenceList[index].id);
-                        }
-                      }
-                    }),
-                IconButton(
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: whiteColor,
-                  ),
-                  onPressed: () {
-                    dialogBox(
-                      title: "Delete Fence",
-                      centerChild: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const ThinTextComp(
-                            data: "Are you sure?",
-                            isCenter: true,
-                          ),
-                          15.height,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              RedButtonComp(
-                                btnName: "Yes",
-                                onTap: () {
-                                  gc.deleteFence(gc.fenceList[index].id);
-                                },
-                                width: 100,
-                                isLoading: gc.isDeleteFenceLoading,
-                              ),
-                              15.width,
-                              GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: const MediumTextComp(
-                                  data: "Cancel",
-                                  size: 15,
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                const ThinTextComp(
+                  data: "Are you sure?",
+                  isCenter: true,
                 ),
+                15.height,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    RedButtonComp(
+                      btnName: "Yes",
+                      onTap: () {
+                        gc.deleteFence(gc.fenceList[index].id);
+                      },
+                      width: 100,
+                      isLoading: gc.isDeleteFenceLoading,
+                    ),
+                    15.width,
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const MediumTextComp(
+                        data: "Cancel",
+                        size: 15,
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
-          ],
-        ),
+          );
+        },
       ),
+      onTap: () {
+        Get.to(() => GeofenceScreen(gc: gc, index: index));
+      },
     );
   }
 }

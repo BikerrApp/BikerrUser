@@ -19,20 +19,7 @@ class BaseClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bmc = Get.put(BaseController());
-    return /*StoreConnector<AppState, ViewModel>(
-        onInit: (str) {
-          str.state.devices!.clear();
-          str.state.positions!.clear();
-          str.state.events!.clear();
-          bmc.mapC.dc.getAllDevices(str);
-        },
-        converter: (Store<AppState> store) => ViewModel.create(store),
-        builder: (BuildContext context, ViewModel viewModel) {
-          bmc.vm.value = viewModel;
-          bmc.vm.refresh();
-          log("${bmc.vm.value}", name: "sdfkajsdkjhasklg");
-          return */
-        SafeArea(
+    return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: BasePageViewComp(bmc: bmc),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 
 class SqlDBService {
@@ -34,6 +36,15 @@ class SqlDBService {
       """);
   }
 
+  Future clearDb() async {
+    Database database = SqlDBService._database!;
+    try {
+      await database.delete("UserDetails");
+    } catch (e) {
+      log("$e");
+    }
+  }
+
   Future insertUserDetails({
     required int id,
     required String userId,
@@ -57,6 +68,7 @@ class SqlDBService {
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
   }
+
   Future updateUserDetails({
     required int id,
     required String userId,
@@ -74,12 +86,8 @@ class SqlDBService {
       "user_number": mobileNumber,
       "user_image": image,
     };
-    return await database.update(
-      'UserDetails',
-      data,
-      where: "id = ?",
-      whereArgs: [id]
-    );
+    return await database
+        .update('UserDetails', data, where: "id = ?", whereArgs: [id]);
   }
 
   Future getUserDetails() async {

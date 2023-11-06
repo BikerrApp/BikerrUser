@@ -33,7 +33,7 @@ class GeoFenceController extends GetxController {
   getFences() async {
     var userId = await SharedPreferencesServices.getIntData(key: "userId");
 
-    Traccar.getGeoFencesByUserID(
+    await Traccar.getGeoFencesByUserID(
       userId: userId.toString(),
       loading: isGeoFenceLoading,
     ).then((value) {
@@ -45,8 +45,8 @@ class GeoFenceController extends GetxController {
     });
   }
 
-  getSelectedFenceList() {
-    Traccar.getGeoFencesByDeviceID(
+  getSelectedFenceList() async {
+    await Traccar.getGeoFencesByDeviceID(
       deviceId: "${bmc.mapC.dc.selectedDeviceId.value}",
       loading: isGetFenceLoading,
     ).then((value) {
@@ -59,7 +59,7 @@ class GeoFenceController extends GetxController {
     });
   }
 
-  updateFence(id) {
+  updateFence(id) async {
     fenceList.clear();
     selectedFenceList.clear();
     GeofencePermModel permissionModel = GeofencePermModel();
@@ -67,7 +67,7 @@ class GeoFenceController extends GetxController {
     permissionModel.geofenceId = id;
 
     var perm = json.encode(permissionModel);
-    Traccar.addPermission(
+    await Traccar.addPermission(
       permission: perm.toString(),
       loading: isUpdateFenceLoading,
     ).then((value) {
@@ -81,8 +81,8 @@ class GeoFenceController extends GetxController {
     });
   }
 
-  removeFence(id) {
-    Traccar.deletePermission(
+  removeFence(id) async {
+    await Traccar.deletePermission(
       bmc.mapC.dc.selectedDeviceId.value,
       id,
       loading: isRemoveFenceLoading,
@@ -150,5 +150,24 @@ class GeoFenceController extends GetxController {
       circleColor: "#3bb2d0",
       circleOpacity: 0.4,
     ));
+  }
+
+  bool fenceCheckboxValue({required int fenceId}) {
+    if (selectedFenceList.isNotEmpty && selectedFenceList.contains(fenceId)) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  fenceCheckboxChange(value, id) {
+    if (value != null) {
+      if (value) {
+        updateFence(id);
+      } else {
+        removeFence(id);
+      }
+    }
   }
 }

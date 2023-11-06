@@ -19,17 +19,10 @@ class MapMyIndiaComp extends StatelessWidget {
             : MapmyIndiaMap(
                 initialCameraPosition: bmc.mapC.myLoc,
                 onMapCreated: bmc.mapC.onMapCreated,
-                myLocationEnabled: false,
+                myLocationEnabled: true,
                 myLocationTrackingMode: MyLocationTrackingMode.NoneCompass,
-                onUserLocationUpdated: (loc) {
-                  bmc.mapC.moveToMyLocation(
-                    updatedLoc:
-                        LatLng(loc.position.latitude, loc.position.longitude),
-                  );
-                },
-                onStyleLoadedCallback: () {
-                  bmc.mapC.addMyLocationMarker();
-                },
+                onUserLocationUpdated: (loc) {},
+                onStyleLoadedCallback: () {},
               );
       },
     );

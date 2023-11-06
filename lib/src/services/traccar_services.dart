@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:bikerr_partner_app/src/models/device_model.dart';
 import 'package:bikerr_partner_app/src/models/geofence_model.dart';
+
 import 'package:bikerr_partner_app/src/models/position_model.dart';
 import 'package:bikerr_partner_app/src/models/stop_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
@@ -44,6 +45,16 @@ class Traccar {
       log("$e");
       return null;
     }
+  }
+
+  static Future<http.Response> logout() async {
+    headers.value['content-type'] = "application/x-www-form-urlencoded";
+
+    final response = await http.delete(
+      Uri.parse("${serverUrl}session"),
+      headers: headers.value,
+    );
+    return response;
   }
 
   static Future<http.Response> addDevice({
@@ -123,7 +134,7 @@ class Traccar {
   }
 
   static Future<List> getNotificationTypes({required RxBool loading}) async {
-    headers.value['Accept'] = "application/json";
+    headers.value['content-type'] = "application/json";
 
     final response = await HttpService.getServer(
       "notifications/types",
@@ -132,7 +143,51 @@ class Traccar {
     );
 
     Iterable list = json.decode(response);
-    return list.map((model) => PositionModel.fromJson(model)).toList();
+    return list.toList();
+  }
+
+  static Future<List> getNotifications({required RxBool loading}) async {
+    headers.value['content-type'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "notifications",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+
+    Iterable list = json.decode(response);
+    return list.toList();
+  }
+
+  static Future<List> setNotifications({
+    required RxBool loading,
+    required dynamic body,
+  }) async {
+    headers.value['content-type'] = "application/json";
+
+    final response = await HttpService.postServer(
+      "notifications",
+      isLoading: loading,
+      bodyTag: body,
+      headerData: headers.value,
+    );
+
+    Iterable list = json.decode(response);
+    return list.toList();
+  }
+
+  static Future removeNotifications({
+    required RxBool loading,
+    required int id,
+  }) async {
+    headers.value['content-type'] = "application/json";
+
+    final response = await http.delete(
+      Uri.parse("${serverUrl}notifications/$id"),
+      headers: headers.value,
+    );
+
+    return response;
   }
 
   static Future<List<GeofenceModel>?> getGeoFencesByUserID({
@@ -208,6 +263,21 @@ class Traccar {
       headers: headers.value,
     );
     loading.value = false;
+    return response;
+  }
+
+  static Future<http.Response> addGeofence({
+    required String fence,
+    required RxBool loading,
+  }) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
+
+    final response = await HttpService.postServer(
+      Uri.parse("geofences"),
+      bodyTag: fence,
+      headerData: headers.value,
+      isLoading: loading,
+    );
     return response;
   }
 

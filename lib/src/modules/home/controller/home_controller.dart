@@ -51,7 +51,6 @@ class HomeController extends GetxController {
     await getUserProfile();
     await getBookedAndTakenBikes();
     await getUpcommingBookings();
-    await getNotificationsType();
     // await getMyBikeList();
     super.onInit();
   }
@@ -94,8 +93,8 @@ class HomeController extends GetxController {
   }
 
   getUserProfile() async {
-    bool isFirstTime =
-        await SharedPreferencesServices.getBoolData(key: "isFirstTime") ?? true;
+    bool isFirstTime = await SharedPreferencesServices.getBoolData(key: "isFirstTime") ?? true;
+    log("$isFirstTime", name: "isFirstTime");
     switch (isFirstTime) {
       case true:
         {
@@ -182,9 +181,5 @@ class HomeController extends GetxController {
     log("$response", name: "mybikeslist");
   }
 
-  getNotificationsType() async {
-    var nt =
-        await Traccar.getNotificationTypes(loading: isNotificationsLoading);
-    log("$nt", name: "jdflkjhasjkfhjkas");
-  }
+
 }

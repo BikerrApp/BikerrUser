@@ -25,7 +25,9 @@ class UserProfileScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: RedButtonComp(
               btnName: "Log Out",
-              onTap: () {},
+              onTap: () async {
+                await bmc.pc.logout();
+              },
               isLoading: bmc.pc.isLoggingOut,
             ),
           ),

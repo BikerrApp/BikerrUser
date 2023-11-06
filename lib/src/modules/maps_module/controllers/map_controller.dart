@@ -4,6 +4,7 @@ import 'package:bikerr_partner_app/src/extensions/bitmap_convertor.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/devices_controller.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/controllers/notifications_controller.dart';
 
 import 'package:bikerr_partner_app/src/utils/methods/common_method.dart';
 import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
@@ -15,7 +16,7 @@ import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 class MapController extends GetxController {
   final dc = Get.put(DevicesController());
-  
+  final nc = Get.put(NotificationsController());
 
   late final bmc = Get.find<BaseController>();
 
@@ -30,7 +31,7 @@ class MapController extends GetxController {
   final myLocationEnabled = true.obs;
   final polylineCoordinates = Rx<List<LatLng>>([]);
   final location = Rxn<LatLng>();
-  final myLocSymbol = Rxn<Symbol>();
+  final devLocSymbol = Rxn<Symbol>();
 
   final isSearch = false.obs;
   final streetView = false.obs;
@@ -57,36 +58,43 @@ class MapController extends GetxController {
     await moveToMyLocation();
   }
 
-  moveToMyLocation({LatLng? updatedLoc}) async {
+  moveToMyLocation() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
         forceAndroidLocationManager: true,
       );
       location.value = LatLng(position.latitude, position.longitude);
       log("${location.value}", name: "asdgasdgsagsgsga");
+      mapController.value!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: location.value!, zoom: 14),
+        ),
+      );
     } catch (e) {
       log("$e", name: "error in map");
     }
-    mapController.value!.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(target: updatedLoc ?? location.value!, zoom: 14),
-      ),
-    );
+
     dc.isListVisible.value = false;
   }
 
-  addMyLocationMarker({LatLng? geometry}) async {
-    await addImageFromAsset("myLoc", myLocIcon, mapController.value!);
-    myLocSymbol.value = await mapController.value!.addSymbol(
+  addDeviceLocationMarker({LatLng? geometry}) async {
+    await addImageFromAsset("devLoc", myLocIcon, mapController.value!);
+    devLocSymbol.value = await mapController.value!.addSymbol(
       SymbolOptions(
-        geometry: geometry ?? location.value,
-        iconImage: "myLoc",
+        geometry: geometry,
+        iconImage: "devLoc",
         iconSize: 0.5,
       ),
     );
   }
 
   moveToMarker({required int deviceId}) async {
+    try {
+      mapController.value!.removeSymbol(devLocSymbol.value!);
+    } catch (e) {
+      log("$e");
+    }
+
     var deviceIdData = bmc.sockC.srh.socketPositionsData.value!
         .where((e) => e.deviceId == deviceId);
     log("$deviceIdData", name: "asdfasdfasdf");
@@ -104,7 +112,7 @@ class MapController extends GetxController {
       mapController.value!.animateCamera(
         CameraUpdate.newCameraPosition(cPosition),
       );
-      await addMyLocationMarker(
+      await addDeviceLocationMarker(
         geometry: LatLng(
           deviceIdData.first.latitude!,
           deviceIdData.first.longitude!,
@@ -141,6 +149,4 @@ class MapController extends GetxController {
         return "";
     }
   }
-
-  
 }

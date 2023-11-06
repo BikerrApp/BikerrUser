@@ -20,6 +20,7 @@ class EditUserDetails extends StatelessWidget {
         padding: EdgeInsets.all(20.r),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -38,7 +39,21 @@ class EditUserDetails extends StatelessWidget {
               50.height,
               RedButtonComp(
                 btnName: "Save",
-                onTap: () {},
+                onTap: () async {
+                 /* int id = await SharedPreferencesServices.getIntData(
+                          key: "user_id_int") ??
+                      0;
+                  bmc.pc.updateUserData(
+                    id: id,
+                    userId: bmc.pc.userIdCntrl.value.value.text,
+                    userName: bmc.pc.userNameCntrl.value.value.text,
+                    email: bmc.pc.emailCntrl.value.value.text,
+                    mobileNumber: bmc.pc.mobNumberCntrl.value.value.text,
+                    image: bmc.pc.imagePath.value,
+                  );
+
+                  getToast("Profile updated successfully");*/
+                },
                 isLoading: bmc.pc.isProfileUpdate,
               )
             ],

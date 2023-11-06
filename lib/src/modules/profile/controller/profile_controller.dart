@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bikerr_partner_app/src/modules/auth/login/login.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
@@ -108,8 +109,7 @@ class ProfileController extends GetxController {
     final XFile? result = await picker.pickImage(source: ImageSource.gallery);
     imagePath.value = result!.path;
     imagePath.refresh();
-    int id =
-        await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
+    int id = await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
 
     await updateUserData(
       id: id,
@@ -119,5 +119,14 @@ class ProfileController extends GetxController {
       mobileNumber: mobNumberCntrl.value.value.text,
       image: imagePath.value,
     );
+  }
+
+  logout() async {
+    isLoggingOut.value = true;
+    await Traccar.logout();
+    await SharedPreferencesServices.clearSharedPrefData();
+    await SqlDBService.sqlDBServiceinstance.clearDb();
+    isLoggingOut.value = false;
+    Get.offAll(() => const LoginScreen());
   }
 }
