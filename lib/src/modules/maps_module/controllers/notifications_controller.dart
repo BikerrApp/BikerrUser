@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bikerr_partner_app/src/models/notification_model.dart';
+import 'package:bikerr_partner_app/src/services/http_client_service.dart';
+import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +11,8 @@ class NotificationsController extends GetxController {
   final notificationsType = <NotificationsType>[].obs;
   final selectedNotifications = <NotificationModel>[].obs;
   final isLoading = true.obs;
+  final isEnableLoading = false.obs;
+  final isRemoveLoading = false.obs;
 
   @override
   void onInit() async {
@@ -54,17 +59,49 @@ class NotificationsController extends GetxController {
       "attributes": {}
     };
 
-    await Traccar.setNotifications(loading: isLoading, body: body)
-        .then((value) {
+    String username =
+        await SharedPreferencesServices.getStringData(key: 'email') ?? "";
+    String password =
+        await SharedPreferencesServices.getStringData(key: 'password') ?? "";
+    String basicAuth =
+        "Basic ${base64.encode(utf8.encode('$username:$password'))}";
+
+    var response = await HttpService.postServer("notifications",
+        isLoading: isEnableLoading,
+        bodyTag: json.encode(body),
+        headerData: {
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json'
+        });
+
+    log("$response");
+    if (response.statusCode == 200) {
       getSelectedNotifications();
-    });
+    }
   }
 
   removeNotification(int id, int index) async {
-    await Traccar.removeNotifications(loading: isLoading, id: id).then((value) {
+    String username =
+        await SharedPreferencesServices.getStringData(key: 'email') ?? "";
+    String password =
+        await SharedPreferencesServices.getStringData(key: 'password') ?? "";
+    String basicAuth =
+        "Basic ${base64.encode(utf8.encode('$username:$password'))}";
+
+    var response = await HttpService.deleteServer(
+      "notifications/$id",
+      headerData: {
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json'
+      },
+      isLoading: isRemoveLoading,
+    );
+    log("$response");
+
+    if (response.statusCode == 204) {
       notificationsType[index].enabled = false;
       getSelectedNotifications();
-    });
+    }
   }
 }
 

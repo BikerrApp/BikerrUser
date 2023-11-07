@@ -72,11 +72,13 @@ class Traccar {
   }
 
   static Future<List<Device>?> getDevices({required RxBool loading}) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
     final response = await HttpService.getServer(
       "devices",
       isLoading: loading,
       headerData: headers.value,
     );
+    log("$response");
     Iterable list = json.decode(response.toString());
     return list.map((model) => Device.fromJson(model)).toList();
   }
@@ -163,7 +165,7 @@ class Traccar {
     required RxBool loading,
     required dynamic body,
   }) async {
-    headers.value['content-type'] = "application/json";
+    headers.value['Content-type'] = "application/json";
 
     final response = await HttpService.postServer(
       "notifications",
@@ -293,6 +295,18 @@ class Traccar {
       headerData: headers.value,
       isLoading: loading,
     );
+    return response;
+  }
+
+  static Future<http.Response> updateUser(String user, String id) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
+
+    final response = await http.put(
+      Uri.parse("${serverUrl}users/$id"),
+      body: user,
+      headers: headers.value,
+    );
+    log(response.body);
     return response;
   }
 

@@ -5,6 +5,7 @@ import 'package:bikerr_partner_app/src/extensions/bitmap_convertor.dart';
 import 'package:bikerr_partner_app/src/models/geo_permission_model.dart';
 import 'package:bikerr_partner_app/src/models/geofence_model.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
+import 'package:bikerr_partner_app/src/modules/maps_module/controllers/geo_fence_controller.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
@@ -14,6 +15,7 @@ import 'package:mapmyindia_gl/mapmyindia_gl.dart';
 
 class AddGeofenceController extends GetxController {
   final bmc = Get.find<BaseController>();
+  final fc = Get.find<GeoFenceController>();
   final mapController = Rxn<MapmyIndiaMapController>();
 
   final valRadius = 100.0.obs;
@@ -106,8 +108,12 @@ class AddGeofenceController extends GetxController {
       loading: isLoading,
     ).then((value) {
       if (value.statusCode == 204) {
-        getToast("Geofence added successfully");
-        Get.back();
+        getToast("Geofence added successfully").then((value) {
+          fc.getFences();
+          Get.back();
+        });
+
+        // Get.back();
       } else {
         getToast("Something went wrong, Please try again");
       }

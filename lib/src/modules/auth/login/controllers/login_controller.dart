@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'dart:convert';
+import 'package:bikerr_partner_app/src/models/user_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'dart:developer';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
@@ -15,6 +16,7 @@ class LoginController extends GetxController {
   final password = TextEditingController().obs;
   final isLogin = false.obs;
   final isBikerLogin = false.obs;
+  final notificationToken = "".obs;
 
   validateLogin() {
     if (userId.value.value.text.trim().trimLeft().trimRight().isEmpty)
@@ -34,6 +36,8 @@ class LoginController extends GetxController {
     var response = jsonDecode(responseData.body);
     log("$response", name: "login response");
     if (responseData.statusCode == 200) {
+      final user = User.fromJson(response);
+      updateUserInfo(user, user.id.toString());
       await SharedPreferencesServices.setIntData(
         key: "userId",
         value: response["id"],
@@ -67,5 +71,23 @@ class LoginController extends GetxController {
     );
     log("$response", name: "responseBikkerLogin");
     return response;
+  }
+
+  updateUserInfo(User user, String id) {
+    var oldToken = user.attributes!["notificationTokens"].toString().split(",");
+    var tokens = user.attributes!["notificationTokens"];
+
+    if (user.attributes!.containsKey("notificationTokens")) {
+      if (!oldToken.contains(notificationToken.value)) {
+        user.attributes!["notificationTokens"] =
+            "${notificationToken.value},$tokens";
+      }
+    } else {
+      user.attributes!["notificationTokens"] = notificationToken.value;
+    }
+
+    String userReq = json.encode(user.toJson());
+
+    Traccar.updateUser(userReq, id).then((value) => {});
   }
 }

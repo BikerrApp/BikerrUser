@@ -60,6 +60,25 @@ class HttpService {
     return response;
   }
 
+
+  static Future deleteServer(
+    url, {
+    bodyTag,
+    headerData,
+    required RxBool isLoading,
+  }) async {
+    isLoading.value = true;
+
+    final response = await http.delete(
+      Uri.parse('$serverUrl$url'),
+      headers: headerData,
+      body: url == 'users' ? jsonEncode(bodyTag) : bodyTag,
+    );
+
+    isLoading.value = false;
+    return response;
+  }
+
   static Future<Map<String, dynamic>> post(
     url, {
     bodyTag,

@@ -15,6 +15,7 @@ class DevicesController extends GetxController {
   @override
   void onInit() async {
     await getAllDevices();
+    await getAllPositions();
     super.onInit();
   }
 
@@ -105,6 +106,9 @@ class DevicesController extends GetxController {
         devicesList.refresh();
       },
     );
+  }
+
+  getAllPositions() async {
     await Traccar.getLatestPositions(loading: positionLoading).then(
       (value) {
         log("$value", name: "jhdfakjlshlf");

@@ -41,6 +41,7 @@ class SocketResponseHandlerController extends GetxController {
     socketPositionsData.refresh();
     log("$socketPositionsData", name: "sgfasgfsag");
     await updateLocationSelectedDevice();
+    await updateCurrentSpeedSelectedDevice();
   }
 
   updateLocationSelectedDevice() async {
@@ -56,6 +57,18 @@ class SocketResponseHandlerController extends GetxController {
           ),
         ),
       );
+    } catch (e) {
+      log("$e");
+    }
+  }
+
+  updateCurrentSpeedSelectedDevice() async {
+    try {
+      bmc.mapC.dc.deviceSpeed.value = bmc.sockC.srh.socketPositionsData.value!
+          .where((e) => e.deviceId == bmc.mapC.dc.selectedDeviceId.value)
+          .first
+          .speed!
+          .toInt();
     } catch (e) {
       log("$e");
     }

@@ -38,6 +38,10 @@ class GeoFenceController extends GetxController {
       loading: isGeoFenceLoading,
     ).then((value) {
       if (value!.isNotEmpty) {
+        fenceList.clear();
+        selectedFenceList.clear();
+        fenceList.refresh();
+        selectedFenceList.refresh();
         fenceList.addAll(value);
         fenceList.refresh();
         getSelectedFenceList();
@@ -108,6 +112,7 @@ class GeoFenceController extends GetxController {
         fenceList.refresh();
         selectedFenceList.refresh();
         getFences();
+        Get.back();
       } else {}
     });
   }
@@ -158,7 +163,6 @@ class GeoFenceController extends GetxController {
     } else {
       return false;
     }
-
   }
 
   fenceCheckboxChange(value, id) {
