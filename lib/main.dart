@@ -7,6 +7,7 @@ import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/sql_db_services.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -61,6 +63,7 @@ class MyHttpOverrides extends HttpOverrides {
         X509Certificate cert,
         String host,
         int port,
-      ) => true;
+      ) =>
+          true;
   }
 }

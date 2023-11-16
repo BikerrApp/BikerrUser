@@ -37,7 +37,7 @@ class LoginController extends GetxController {
     log("$response", name: "login response");
     if (responseData.statusCode == 200) {
       final user = User.fromJson(response);
-      updateUserInfo(user, user.id.toString());
+      // updateUserInfo(user, user.id.toString());
       await SharedPreferencesServices.setIntData(
         key: "userId",
         value: response["id"],
@@ -48,11 +48,17 @@ class LoginController extends GetxController {
       );
       var bikerResponse = await loginOnBikerServer();
       log("${bikerResponse["data"]["token"]}", name: "vkgfiytfjkhfkf");
+      log("${bikerResponse["user_detail"]["fcm_token"]}", name: "wqrqw2345");
       if (bikerResponse["status_code"] == 200) {
         await SharedPreferencesServices.setStringData(
           key: "apiToken",
           value: bikerResponse["data"]["token"],
         );
+        await SharedPreferencesServices.setStringData(
+          key: "fcmToken",
+          value: bikerResponse["user_detail"]["fcm_token"],
+        );
+        updateUserInfo(user, user.id.toString());
         Traccar.apiToken.value = bikerResponse["data"]["token"];
         Get.offAll(() => const BaseClass());
       }
@@ -73,17 +79,17 @@ class LoginController extends GetxController {
     return response;
   }
 
-  updateUserInfo(User user, String id) {
-    var oldToken = user.attributes!["notificationTokens"].toString().split(",");
-    var tokens = user.attributes!["notificationTokens"];
+  updateUserInfo(User user, String id) async {
+    var t = await SharedPreferencesServices.getStringData(key: "fcmToken") ?? "";
+    var oldToken = t.toString().split(",");
+    var tokens = t;
 
     if (user.attributes!.containsKey("notificationTokens")) {
       if (!oldToken.contains(notificationToken.value)) {
-        user.attributes!["notificationTokens"] =
-            "${notificationToken.value},$tokens";
+        t = "${notificationToken.value},$tokens";
       }
     } else {
-      user.attributes!["notificationTokens"] = notificationToken.value;
+      t = notificationToken.value;
     }
 
     String userReq = json.encode(user.toJson());

@@ -60,19 +60,16 @@ class HttpService {
     return response;
   }
 
-
   static Future deleteServer(
-    url, {
-    bodyTag,
-    headerData,
+    id,
+    auth, {
     required RxBool isLoading,
   }) async {
     isLoading.value = true;
 
-    final response = await http.delete(
-      Uri.parse('$serverUrl$url'),
-      headers: headerData,
-      body: url == 'users' ? jsonEncode(bodyTag) : bodyTag,
+    var response = await http.delete(
+      Uri.parse('${serverUrl}notifications/$id'),
+      headers: {'Authorization': auth, 'Content-Type': 'application/json'},
     );
 
     isLoading.value = false;

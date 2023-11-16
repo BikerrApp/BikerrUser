@@ -9,6 +9,7 @@ class PermissionHandlerController extends GetxController {
     log("App asked for permissions", name: "permission_handler");
     await requestLocationPermission();
     await requestCameraPermission();
+    await requestNotificationPermission();
     super.onInit();
   }
 
@@ -23,6 +24,13 @@ class PermissionHandlerController extends GetxController {
   Future<bool> requestLocationPermission() async {
     if (await Permission.location.isGranted) return true;
     final status = await Permission.location.request();
+    return status.isGranted;
+  }
+
+  // Request notification permission
+  Future<bool> requestNotificationPermission() async {
+    if (await Permission.notification.isGranted) return true;
+    final status = await Permission.notification.request();
     return status.isGranted;
   }
 }

@@ -75,9 +75,8 @@ class NotificationsController extends GetxController {
         });
 
     log("$response");
-    if (response.statusCode == 200) {
-      getSelectedNotifications();
-    }
+
+    getSelectedNotifications();
   }
 
   removeNotification(int id, int index) async {
@@ -89,19 +88,15 @@ class NotificationsController extends GetxController {
         "Basic ${base64.encode(utf8.encode('$username:$password'))}";
 
     var response = await HttpService.deleteServer(
-      "notifications/$id",
-      headerData: {
-        'Authorization': basicAuth,
-        'Content-Type': 'application/json'
-      },
+      "$id",
+      basicAuth,
       isLoading: isRemoveLoading,
     );
     log("$response");
 
-    if (response.statusCode == 204) {
-      notificationsType[index].enabled = false;
-      getSelectedNotifications();
-    }
+    notificationsType[index].enabled = false;
+    notificationsType.refresh();
+    // getSelectedNotifications();
   }
 }
 
