@@ -3,7 +3,7 @@ import 'package:bikerr_partner_app/src/modules/profile/controller/profile_contro
 import 'package:bikerr_partner_app/src/modules/profile/user_profile.dart';
 import 'package:bikerr_partner_app/src/modules/socket_handling/socket_controller.dart';
 import 'package:bikerr_partner_app/src/modules/home/controller/home_controller.dart';
-import 'package:bikerr_partner_app/src/modules/home/home.dart';
+// import 'package:bikerr_partner_app/src/modules/home/home.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/map_controller.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/map.dart';
 import 'package:bikerr_partner_app/src/services/permission_handler.dart';
@@ -29,7 +29,7 @@ class BaseController extends GetxController {
   }
 
   List<Widget> pages = [
-    const HomeScreen(),
+    // const HomeScreen(),
     const MapScreenClass(),
     const UserProfileScreen(),
   ];

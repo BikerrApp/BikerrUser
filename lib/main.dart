@@ -2,7 +2,9 @@
 
 import 'dart:io';
 
+import 'package:bikerr_partner_app/firebase_options.dart';
 import 'package:bikerr_partner_app/src/modules/splash/splash_screen.dart';
+import 'package:bikerr_partner_app/src/services/fcm_notification.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/sql_db_services.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
@@ -16,7 +18,7 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  Firebase.initializeApp();
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -27,10 +29,9 @@ void main() async {
   bool isLogin =
       (await SharedPreferencesServices.getBoolData(key: "isLoggedIn")) ?? false;
   await Traccar.getHeader();
+  FCMNotificationWithLocal();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (value) async => runApp(
-      MainApp(isLogin: isLogin),
-    ),
+    (value) async => runApp(MainApp(isLogin: isLogin)),
   );
 }
 

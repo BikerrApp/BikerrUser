@@ -1,13 +1,17 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'package:bikerr_partner_app/src/models/user_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'dart:developer';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../base/base_class.dart';
 
@@ -17,6 +21,8 @@ class LoginController extends GetxController {
   final isLogin = false.obs;
   final isBikerLogin = false.obs;
   final notificationToken = "".obs;
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   validateLogin() {
     if (userId.value.value.text.trim().trimLeft().trimRight().isEmpty)
@@ -37,7 +43,7 @@ class LoginController extends GetxController {
     log("$response", name: "login response");
     if (responseData.statusCode == 200) {
       final user = User.fromJson(response);
-      // updateUserInfo(user, user.id.toString());
+      updateUserInfo(user, user.id.toString());
       await SharedPreferencesServices.setIntData(
         key: "userId",
         value: response["id"],
@@ -58,9 +64,9 @@ class LoginController extends GetxController {
           key: "fcmToken",
           value: bikerResponse["user_detail"]["fcm_token"],
         );
-        updateUserInfo(user, user.id.toString());
+        // updateUserInfo(user, user.id.toString());
         Traccar.apiToken.value = bikerResponse["data"]["token"];
-        Get.offAll(() => const BaseClass());
+        // Get.offAll(() => const BaseClass());
       }
     } else {}
   }
@@ -79,8 +85,9 @@ class LoginController extends GetxController {
     return response;
   }
 
-  updateUserInfo(User user, String id) async {
-    var t = await SharedPreferencesServices.getStringData(key: "fcmToken") ?? "";
+  eeupdateUserInfo(User user, String id) async {
+    var t =
+        await SharedPreferencesServices.getStringData(key: "fcmToken") ?? "";
     var oldToken = t.toString().split(",");
     var tokens = t;
 
@@ -90,6 +97,56 @@ class LoginController extends GetxController {
       }
     } else {
       t = notificationToken.value;
+    }
+
+    String userReq = json.encode(user.toJson());
+
+    Traccar.updateUser(userReq, id).then((value) => {});
+  }
+
+  Future<String> getFCMToken() async {
+    try {
+      await messaging.requestPermission();
+      final settings = await messaging.getNotificationSettings();
+      if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+          settings.authorizationStatus == AuthorizationStatus.provisional) {
+        String? token = Platform.isAndroid
+            ? await messaging.getToken()
+            : await messaging.getAPNSToken();
+        log("$token", name: "djsfksjhdkfhj");
+        return token!;
+      } else {
+        throw PlatformException(
+          code: 'UNAUTHORIZED',
+          message: 'User has not authorized push notifications.',
+        );
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  updateUserInfo(User user, String id) async {
+    String fcmToken = await getFCMToken();
+
+    log(fcmToken, name: "dfhsjdhfs");
+    log("$user", name: "dfhsjdhfs");
+    log("${user.attributes}", name: "dfhsjdhfs");
+    if (user.attributes!["notificationTokens"] != "") {
+      var oldToken =
+          user.attributes!["notificationTokens"].toString().split(",");
+
+      var tokens = user.attributes!["notificationTokens"];
+      if (user.attributes!.containsKey("notificationTokens")) {
+        if (!oldToken.contains(fcmToken)) {
+          user.attributes!["notificationTokens"] = "$fcmToken,$tokens";
+        }
+      } else {
+        user.attributes!["notificationTokens"] = fcmToken;
+      }
+    } else {
+      user.attributes = HashMap();
+      user.attributes?["notificationTokens"] = fcmToken;
     }
 
     String userReq = json.encode(user.toJson());

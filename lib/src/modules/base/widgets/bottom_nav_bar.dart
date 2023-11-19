@@ -21,10 +21,10 @@ class BaseBottomNavComp extends StatelessWidget {
         height: 65.h,
         child: BottomNavigationBar(
           items: [
-            const BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage(homeIcon)),
-              label: "Home",
-            ),
+            // const BottomNavigationBarItem(
+            //   icon: ImageIcon(AssetImage(homeIcon)),
+            //   label: "Home",
+            // ),
             const BottomNavigationBarItem(
               icon: ImageIcon(AssetImage(mapIcon)),
               label: "Track",
