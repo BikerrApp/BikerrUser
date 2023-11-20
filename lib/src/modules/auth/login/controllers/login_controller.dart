@@ -66,7 +66,7 @@ class LoginController extends GetxController {
         );
         // updateUserInfo(user, user.id.toString());
         Traccar.apiToken.value = bikerResponse["data"]["token"];
-        // Get.offAll(() => const BaseClass());
+        Get.offAll(() => const BaseClass());
       }
     } else {}
   }
@@ -114,7 +114,7 @@ class LoginController extends GetxController {
             ? await messaging.getToken()
             : await messaging.getAPNSToken();
         log("$token", name: "djsfksjhdkfhj");
-        return token!;
+        return token ?? "";
       } else {
         throw PlatformException(
           code: 'UNAUTHORIZED',

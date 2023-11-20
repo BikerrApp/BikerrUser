@@ -114,7 +114,7 @@ Future<void> selectToTime(TimeOfDay selectedTime) async {
 }
 
 Future<void> selectFromTime(TimeOfDay selectedTime) async {
-  final TimeOfDay? picked = await showTimePicker(
+  final TimeOfDay? picked = await showTimePicker( 
     context: Get.context!,
     initialTime: TimeOfDay.now(),
     builder: (BuildContext context, Widget? child) {

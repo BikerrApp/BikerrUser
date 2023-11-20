@@ -59,19 +59,31 @@ class HistorySelectionDialogComp extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RedButtonComp(
-                          btnName:
-                              formatReportDate(bmc.mapC.dc.selectedFromDate),
-                          onTap: () =>
-                              selectFromDate(bmc.mapC.dc.selectedFromDate),
+                          btnName: formatReportDate(
+                              bmc.mapC.dc.selectedFromDate.value),
+                          onTap: () async {
+                            bmc.mapC.dc.selectedFromDate.value =
+                                (await showDatePicker(
+                              context: Get.context!,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2015),
+                              lastDate: DateTime(2101),
+                            ))!;
+                          },
                           isLoading: bmc.mapC.dc.isHistoryLoading,
                           width: 110.w,
                           isSmall: true,
                         ),
                         RedButtonComp(
-                          btnName:
-                              formatReportTime(bmc.mapC.dc.selectedFromTime),
-                          onTap: () =>
-                              selectFromTime(bmc.mapC.dc.selectedFromTime),
+                          btnName: formatReportTime(
+                              bmc.mapC.dc.selectedFromTime.value),
+                          onTap: () async {
+                            bmc.mapC.dc.selectedFromTime.value =
+                                (await showTimePicker(
+                              context: Get.context!,
+                              initialTime: TimeOfDay.now(),
+                            ))!;
+                          },
                           isLoading: bmc.mapC.dc.isHistoryLoading,
                           width: 60.w,
                           isSmall: true,
@@ -83,15 +95,30 @@ class HistorySelectionDialogComp extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RedButtonComp(
-                          btnName: formatReportDate(bmc.mapC.dc.selectedToDate),
-                          onTap: () => selectToDate(bmc.mapC.dc.selectedToDate),
+                          btnName: formatReportDate(
+                              bmc.mapC.dc.selectedToDate.value),
+                          onTap: () async {
+                            bmc.mapC.dc.selectedToDate.value =
+                                (await showDatePicker(
+                                    context: Get.context!,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2015),
+                                    lastDate: DateTime(2101)))!;
+                          },
                           isLoading: bmc.mapC.dc.isHistoryLoading,
                           width: 110.w,
                           isSmall: true,
                         ),
                         RedButtonComp(
-                          btnName: formatReportTime(bmc.mapC.dc.selectedToTime),
-                          onTap: () => selectToTime(bmc.mapC.dc.selectedToTime),
+                          btnName: formatReportTime(
+                              bmc.mapC.dc.selectedToTime.value),
+                          onTap: () async {
+                            bmc.mapC.dc.selectedToTime.value =
+                                (await showTimePicker(
+                              context: Get.context!,
+                              initialTime: TimeOfDay.now(),
+                            ))!;
+                          },
                           isLoading: bmc.mapC.dc.isHistoryLoading,
                           width: 60.w,
                           isSmall: true,
@@ -116,6 +143,7 @@ class HistorySelectionDialogComp extends StatelessWidget {
               15.width,
               GestureDetector(
                 onTap: () {
+                  bmc.mapC.dc.selectedPeriod.value = 0;
                   Get.back();
                 },
                 child: const MediumTextComp(

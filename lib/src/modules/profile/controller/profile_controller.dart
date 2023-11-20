@@ -109,7 +109,8 @@ class ProfileController extends GetxController {
     final XFile? result = await picker.pickImage(source: ImageSource.gallery);
     imagePath.value = result!.path;
     imagePath.refresh();
-    int id = await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
+    int id =
+        await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
 
     await updateUserData(
       id: id,
@@ -127,6 +128,11 @@ class ProfileController extends GetxController {
     await SharedPreferencesServices.clearSharedPrefData();
     await SqlDBService.sqlDBServiceinstance.clearDb();
     isLoggingOut.value = false;
+    await SharedPreferencesServices.setBoolData(
+      key: "isLoggedIn",
+      value: false,
+    );
+    Get.deleteAll();
     Get.offAll(() => const LoginScreen());
   }
 }

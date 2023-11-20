@@ -21,10 +21,10 @@ class DevicesController extends GetxController {
 
   final selectedPeriod = 0.obs;
   final isHistoryLoading = false.obs;
-  final selectedFromDate = DateTime.now();
-  final selectedToDate = DateTime.now();
-  final selectedFromTime = TimeOfDay.now();
-  final selectedToTime = TimeOfDay.now();
+  final selectedFromDate = DateTime.now().obs;
+  final selectedToDate = DateTime.now().obs;
+  final selectedFromTime = TimeOfDay.now().obs;
+  final selectedToTime = TimeOfDay.now().obs;
 
   final devicesList = Rxn<List<Device>>();
   final positionsList = Rxn<List<PositionModel>>();
@@ -170,8 +170,12 @@ class DevicesController extends GetxController {
         positionsList.value!.add(positionObj);
         devicesList.refresh();
         positionsList.refresh();
+        Get.back();
+        getToast("Device added successfully");
       } else {
         log("$value error aagya hua nahi add device");
+        Get.back();
+        getToast("Something went wrong, Please try again");
       }
     });
   }
@@ -257,73 +261,73 @@ class DevicesController extends GetxController {
       to = end.toUtc().toIso8601String();
     } else {
       String startMonth, endMoth;
-      if (selectedFromDate.month < 10) {
-        startMonth = "0${selectedFromDate.month}";
+      if (selectedFromDate.value.month < 10) {
+        startMonth = "0${selectedFromDate.value.month}";
       } else {
-        startMonth = selectedFromDate.month.toString();
+        startMonth = selectedFromDate.value.month.toString();
       }
 
-      if (selectedToDate.month < 10) {
-        endMoth = "0${selectedToDate.month}";
+      if (selectedToDate.value.month < 10) {
+        endMoth = "0${selectedToDate.value.month}";
       } else {
-        endMoth = selectedToDate.month.toString();
+        endMoth = selectedToDate.value.month.toString();
       }
 
       String startHour, endHour;
-      if (selectedFromTime.hour < 10) {
-        startHour = "0${selectedFromTime.hour}";
+      if (selectedFromTime.value.hour < 10) {
+        startHour = "0${selectedFromTime.value.hour}";
       } else {
-        startHour = selectedFromTime.hour.toString();
+        startHour = selectedFromTime.value.hour.toString();
       }
 
       String startMin, endMin;
-      if (selectedFromTime.minute < 10) {
-        startMin = "0${selectedFromTime.minute}";
+      if (selectedFromTime.value.minute < 10) {
+        startMin = "0${selectedFromTime.value.minute}";
       } else {
-        startMin = selectedFromTime.minute.toString();
+        startMin = selectedFromTime.value.minute.toString();
       }
 
-      if (selectedFromTime.minute < 10) {
-        endMin = "0${selectedToTime.minute}";
+      if (selectedFromTime.value.minute < 10) {
+        endMin = "0${selectedToTime.value.minute}";
       } else {
-        endMin = selectedToTime.minute.toString();
+        endMin = selectedToTime.value.minute.toString();
       }
 
-      if (selectedToTime.hour < 10) {
-        endHour = "0${selectedToTime.hour}";
+      if (selectedToTime.value.hour < 10) {
+        endHour = "0${selectedToTime.value.hour}";
       } else {
-        endHour = selectedToTime.hour.toString();
+        endHour = selectedToTime.value.hour.toString();
       }
 
       String startDay, endDay;
-      if (selectedFromDate.day < 10) {
-        if (selectedFromDate.day == 10) {
-          startDay = selectedFromDate.day.toString();
+      if (selectedFromDate.value.day < 10) {
+        if (selectedFromDate.value.day == 10) {
+          startDay = selectedFromDate.value.day.toString();
         } else {
-          startDay = "0${selectedFromDate.day}";
+          startDay = "0${selectedFromDate.value.day}";
         }
       } else {
-        startDay = selectedFromDate.day.toString();
+        startDay = selectedFromDate.value.day.toString();
       }
 
-      if (selectedToDate.day < 10) {
-        if (selectedToDate.day == 10) {
-          endDay = selectedToDate.day.toString();
+      if (selectedToDate.value.day < 10) {
+        if (selectedToDate.value.day == 10) {
+          endDay = selectedToDate.value.day.toString();
         } else {
-          endDay = "0${selectedToDate.day}";
+          endDay = "0${selectedToDate.value.day}";
         }
       } else {
-        endDay = selectedToDate.day.toString();
+        endDay = selectedToDate.value.day.toString();
       }
 
-      var start = DateTime.parse("${selectedFromDate.year}-"
+      var start = DateTime.parse("${selectedFromDate.value.year}-"
           "$startMonth-"
           "$startDay "
           "$startHour:"
           "$startMin:"
           "00");
 
-      var end = DateTime.parse("${selectedToDate.year}-"
+      var end = DateTime.parse("${selectedToDate.value.year}-"
           "$endMoth-"
           "$endDay "
           "$endHour:"
