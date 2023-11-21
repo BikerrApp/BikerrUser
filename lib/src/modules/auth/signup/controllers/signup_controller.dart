@@ -1,7 +1,5 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'dart:developer';
-
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
@@ -31,7 +29,8 @@ class SignUpController extends GetxController {
       return getToast("User Name Cannot Be empty");
     if (emailCntrl.value.value.text.trim().trimLeft().trimRight().isEmpty)
       return getToast("Email Cannot Be empty");
-    if (!isValidEmail(emailCntrl.value.value.text.trim().trimLeft().trimRight()))
+    if (!isValidEmail(
+        emailCntrl.value.value.text.trim().trimLeft().trimRight()))
       return getToast("Email is not valid");
     if (mobNumberCntrl.value.value.text.trim().trimLeft().trimRight().isEmpty)
       return getToast("Mobile Number Cannot Be empty");
@@ -52,8 +51,6 @@ class SignUpController extends GetxController {
       },
       isServer: false,
     );
-
-    log("$response", name: "register");
 
     if (response["response"] == "error") {
       getToast("${response["message"]}");

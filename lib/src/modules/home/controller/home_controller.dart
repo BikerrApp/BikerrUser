@@ -49,8 +49,8 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     await getUserProfile();
-    await getBookedAndTakenBikes();
-    await getUpcommingBookings();
+    // await getBookedAndTakenBikes();
+    // await getUpcommingBookings();
     // await getMyBikeList();
     super.onInit();
   }
@@ -93,7 +93,8 @@ class HomeController extends GetxController {
   }
 
   getUserProfile() async {
-    bool isFirstTime = await SharedPreferencesServices.getBoolData(key: "isFirstTime") ?? true;
+    bool isFirstTime =
+        await SharedPreferencesServices.getBoolData(key: "isFirstTime") ?? true;
     log("$isFirstTime", name: "isFirstTime");
     switch (isFirstTime) {
       case true:
@@ -103,8 +104,6 @@ class HomeController extends GetxController {
             headerData: {'Authorization': 'Bearer ${Traccar.apiToken.value}'},
             isLoading: isProfileLoading,
           );
-          log("${response["data"]}", name: "sdfhkjashdgkjas");
-          log("${response["data"]["user_id"]}", name: "sdfhkjashdgkjas");
           await SharedPreferencesServices.setIntData(
             key: "user_id_int",
             value: response["data"]["id"],
@@ -118,7 +117,9 @@ class HomeController extends GetxController {
             image: "",
           );
           await SharedPreferencesServices.setBoolData(
-              key: "isFirstTime", value: false);
+            key: "isFirstTime",
+            value: false,
+          );
           await getUserDataFromDb();
         }
         break;
@@ -147,14 +148,11 @@ class HomeController extends GetxController {
       mobileNumber: mobileNumber,
       image: image,
     );
-    log("ajshdfkjlashdflhasld");
   }
 
   getUserDataFromDb() async {
     var response = await SqlDBService.sqlDBServiceinstance.getUserDetails();
     userDetailsData.value = response;
-    log("$userDetailsData", name: "oiewuoithwjkh23452nbkjb34");
-    log("${userDetailsData.first["user_id"]}", name: "jsdhfklajshdgkjlahsdlk");
   }
 
   getUpcommingBookings() async {
@@ -180,6 +178,4 @@ class HomeController extends GetxController {
     );
     log("$response", name: "mybikeslist");
   }
-
-
 }

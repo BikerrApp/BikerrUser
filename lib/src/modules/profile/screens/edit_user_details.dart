@@ -1,8 +1,10 @@
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
 import 'package:bikerr_partner_app/src/modules/profile/widgets/user_details_form.dart';
+import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/buttons/red_btn.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/app_bar.dart';
+import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/user_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,10 +42,10 @@ class EditUserDetails extends StatelessWidget {
               RedButtonComp(
                 btnName: "Save",
                 onTap: () async {
-                 /* int id = await SharedPreferencesServices.getIntData(
+                  int id = await SharedPreferencesServices.getIntData(
                           key: "user_id_int") ??
                       0;
-                  bmc.pc.updateUserData(
+                  await bmc.pc.updateUserData(
                     id: id,
                     userId: bmc.pc.userIdCntrl.value.value.text,
                     userName: bmc.pc.userNameCntrl.value.value.text,
@@ -52,7 +54,7 @@ class EditUserDetails extends StatelessWidget {
                     image: bmc.pc.imagePath.value,
                   );
 
-                  getToast("Profile updated successfully");*/
+                  getToast("Profile updated successfully");
                 },
                 isLoading: bmc.pc.isProfileUpdate,
               )

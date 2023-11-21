@@ -1,10 +1,12 @@
 import 'package:bikerr_partner_app/src/extensions/space_ext.dart';
 import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.dart';
+import 'package:bikerr_partner_app/src/modules/profile/screens/change_password_screen.dart';
 import 'package:bikerr_partner_app/src/utils/strings/colors.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/texts/medium_text_comp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class ProfileListComp extends StatelessWidget {
   final BaseController bmc;
@@ -20,21 +22,43 @@ class ProfileListComp extends StatelessWidget {
             bmc.pc.profileListData.length,
             (index) => Padding(
               padding: EdgeInsets.only(bottom: 15.h),
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    bmc.pc.profileListData[index]["icon"]!,
-                    height: 15.h,
-                    width: 15.h,
-                    color: whiteColor,
-                  ),
-                  12.width,
-                  MediumTextComp(
-                    data: bmc.pc.profileListData[index]["name"]!,
-                    color: whiteColor,
-                    size: 14,
-                  )
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  switch (index) {
+                    case 0:
+                      Get.to(() => ChangePasswordScreen(bmc: bmc));
+                      break;
+                    case 1:
+                      bmc.pc.termsAndPolicies(index);
+                      break;
+                    case 2:
+                      bmc.pc.termsAndPolicies(index);
+                      break;
+                    case 3:
+                      bmc.pc.termsAndPolicies(index);
+                      break;
+                    case 4:
+                      bmc.pc.requestDeletion();
+                      break;
+                    default:
+                  }
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      bmc.pc.profileListData[index]["icon"]!,
+                      height: 15.h,
+                      width: 15.h,
+                      color: whiteColor,
+                    ),
+                    12.width,
+                    MediumTextComp(
+                      data: bmc.pc.profileListData[index]["name"]!,
+                      color: whiteColor,
+                      size: 14,
+                    )
+                  ],
+                ),
               ),
             ),
           )

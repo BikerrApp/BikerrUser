@@ -68,6 +68,7 @@ class DevicesController extends GetxController {
   final isEngineCommandChange = false.obs;
 
   final isAddingDevice = false.obs;
+  final isDeleteDevice = false.obs;
 
   final bikeNameCntrl = TextEditingController().obs;
   final deviceModelCntrl = TextEditingController().obs;
@@ -158,24 +159,29 @@ class DevicesController extends GetxController {
     await Traccar.addDevice(
       loading: isAddingDevice,
       deviceData: deviceObj,
-    ).then((value) {
+    ).then((value) async {
       if (value.statusCode == 200) {
+        log(value.body, name: "fsadfasdfasd");
         devicesList.value!.add(Device.fromJson(json.decode(value.body)));
-        positionObj.deviceId = devicesList.value!.single.id;
+        devicesList.refresh();
+        positionObj.deviceId = devicesList.value!.last.id;
         positionObj.latitude = 0;
         positionObj.longitude = 0;
         positionObj.id = 1;
         positionObj.attributes = {};
         positionObj.speed = 0;
         positionsList.value!.add(positionObj);
-        devicesList.refresh();
         positionsList.refresh();
+        await getAllDevices();
+        bikeNameCntrl.value.clear();
+        uniqueIdCntrl.value.clear();
+        mobileNumberCntrl.value.clear();
+        deviceModelCntrl.value.clear();
+        deviceContactCntrl.value.clear();
         Get.back();
         getToast("Device added successfully");
       } else {
         log("$value error aagya hua nahi add device");
-        Get.back();
-        getToast("Something went wrong, Please try again");
       }
     });
   }

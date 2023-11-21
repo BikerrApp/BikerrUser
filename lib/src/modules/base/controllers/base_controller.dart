@@ -21,6 +21,7 @@ class BaseController extends GetxController {
 
   final onTapChangePageIndex = 0.obs;
   final pageController = PageController().obs;
+  final isLodadffgd = false.obs;
 
   @override
   void onReady() {

@@ -71,6 +71,19 @@ class Traccar {
     return response;
   }
 
+  static Future<http.Response> deleteDevice({
+    required RxBool loading,
+    required String id,
+  }) async {
+    headers.value['content-type'] = "application/json; charset=utf-8";
+    headers.value['accept'] = "application/json";
+    final response = await http.delete(
+      Uri.parse("${serverUrl}devices/$id"),
+      headers: headers.value,
+    );
+    return response;
+  }
+
   static Future<List<Device>?> getDevices({required RxBool loading}) async {
     headers.value['content-type'] = "application/json; charset=utf-8";
     final response = await HttpService.getServer(

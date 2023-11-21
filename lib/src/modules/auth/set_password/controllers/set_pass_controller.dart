@@ -1,6 +1,5 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'dart:developer';
 
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
@@ -44,13 +43,13 @@ class SetPasswordController extends GetxController {
         'content-type': 'application/json; charset=utf-8',
       },
     );
-    log("$response", name: "register response");
+
     return response;
   }
 
   setPassword() async {
     var token = await SharedPreferencesServices.getStringData(key: 'currentToken');
-    log("$token", name: "tokennnnn");
+
 
     var response = await HttpService.post(
       "password-set",
@@ -68,8 +67,8 @@ class SetPasswordController extends GetxController {
 
     if (response['status_code'] == 200) {
       var traccarResponse = await registerUserOnServer();
-      log(traccarResponse.statusCode.toString(), name: "trac response");
-      log("$response", name: "set response");
+
+
       if (traccarResponse.statusCode.toString() == "200") {
         Get.offAll(() => const LoginScreen());
       }

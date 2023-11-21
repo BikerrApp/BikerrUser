@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bikerr_partner_app/src/models/user_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
-import 'dart:developer';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
@@ -38,9 +37,9 @@ class LoginController extends GetxController {
       password: password.value.value.text.trim().trimLeft().trimRight(),
       loading: isLogin,
     );
-    log(responseData!.body, name: "asdgsragase");
-    var response = jsonDecode(responseData.body);
-    log("$response", name: "login response");
+
+    var response = jsonDecode(responseData!.body);
+
     if (responseData.statusCode == 200) {
       final user = User.fromJson(response);
       updateUserInfo(user, user.id.toString());
@@ -52,9 +51,12 @@ class LoginController extends GetxController {
         key: "isLoggedIn",
         value: true,
       );
+      await SharedPreferencesServices.setStringData(
+        key: "password",
+        value: password.value.value.text.trim().trimLeft().trimRight(),
+      );
       var bikerResponse = await loginOnBikerServer();
-      log("${bikerResponse["data"]["token"]}", name: "vkgfiytfjkhfkf");
-      log("${bikerResponse["user_detail"]["fcm_token"]}", name: "wqrqw2345");
+
       if (bikerResponse["status_code"] == 200) {
         await SharedPreferencesServices.setStringData(
           key: "apiToken",
@@ -81,7 +83,7 @@ class LoginController extends GetxController {
       headerData: {'Content-Type': 'application/json'},
       isLoading: isLogin,
     );
-    log("$response", name: "responseBikkerLogin");
+
     return response;
   }
 
@@ -113,7 +115,7 @@ class LoginController extends GetxController {
         String? token = Platform.isAndroid
             ? await messaging.getToken()
             : await messaging.getAPNSToken();
-        log("$token", name: "djsfksjhdkfhj");
+
         return token ?? "";
       } else {
         throw PlatformException(
@@ -129,9 +131,6 @@ class LoginController extends GetxController {
   updateUserInfo(User user, String id) async {
     String fcmToken = await getFCMToken();
 
-    log(fcmToken, name: "dfhsjdhfs");
-    log("$user", name: "dfhsjdhfs");
-    log("${user.attributes}", name: "dfhsjdhfs");
     if (user.attributes!["notificationTokens"] != "") {
       var oldToken =
           user.attributes!["notificationTokens"].toString().split(",");
