@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:294182998026:android:86ea97e18b6eaf8b1e4ff3",
+        "mobilesdk_app_id": "1:294182998026:android:d8d19eb1930bacf31e4ff3",
         "android_client_info": {
-          "package_name": "com.bikerr.bikerr"
+          "package_name": "com.stardust.bikerr"
         }
       },
       "oauth_client": [
@@ -43,7 +43,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:294182998026:android:5fe50025814cbed41e4ff3",
+        "mobilesdk_app_id": "1:294182998026:android:fb4ce911f314d1151e4ff3",
         "android_client_info": {
           "package_name": "com.stardust.bikerr.bikerrPartner"
         }

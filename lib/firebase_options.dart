@@ -13,8 +13,7 @@ import 'package:flutter/foundation.dart'
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
-
-
+/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -52,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyATkKubb4VblISlvyfguTmCKP-g1avH-vA',
-    appId: '1:294182998026:android:5fe50025814cbed41e4ff3',
+    appId: '1:294182998026:android:fb4ce911f314d1151e4ff3',
     messagingSenderId: '294182998026',
     projectId: 'bikerr-49490',
     storageBucket: 'bikerr-49490.appspot.com',
@@ -60,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDefxsjrxrPBfKmndRHFhNsIhisrauN16s',
-    appId: '1:294182998026:ios:0bf919a715d825ad1e4ff3',
+    appId: '1:294182998026:ios:da49ef3d8051f8551e4ff3',
     messagingSenderId: '294182998026',
     projectId: 'bikerr-49490',
     storageBucket: 'bikerr-49490.appspot.com',
