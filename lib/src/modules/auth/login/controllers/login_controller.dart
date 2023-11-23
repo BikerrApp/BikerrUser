@@ -112,9 +112,11 @@ class LoginController extends GetxController {
       final settings = await messaging.getNotificationSettings();
       if (settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional) {
-        String? token = Platform.isAndroid
-            ? await messaging.getToken()
-            : await messaging.getAPNSToken();
+        // String? token = Platform.isAndroid
+        //     ? await messaging.getToken()
+        //     : await messaging.getAPNSToken();
+
+        String? token = await messaging.getToken();
 
         return token ?? "";
       } else {
@@ -130,6 +132,8 @@ class LoginController extends GetxController {
 
   updateUserInfo(User user, String id) async {
     String fcmToken = await getFCMToken();
+
+    print("FCM Token: " + fcmToken);
 
     if (user.attributes!["notificationTokens"] != "") {
       var oldToken =
