@@ -2,7 +2,6 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
 import 'package:bikerr_partner_app/src/models/user_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
@@ -112,12 +111,7 @@ class LoginController extends GetxController {
       final settings = await messaging.getNotificationSettings();
       if (settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional) {
-        // String? token = Platform.isAndroid
-        //     ? await messaging.getToken()
-        //     : await messaging.getAPNSToken();
-
         String? token = await messaging.getToken();
-
         return token ?? "";
       } else {
         throw PlatformException(
@@ -132,9 +126,6 @@ class LoginController extends GetxController {
 
   updateUserInfo(User user, String id) async {
     String fcmToken = await getFCMToken();
-
-    print("FCM Token: " + fcmToken);
-
     if (user.attributes!["notificationTokens"] != "") {
       var oldToken =
           user.attributes!["notificationTokens"].toString().split(",");
