@@ -5,6 +5,7 @@ import 'package:bikerr_partner_app/src/models/geofence_model.dart';
 
 import 'package:bikerr_partner_app/src/models/position_model.dart';
 import 'package:bikerr_partner_app/src/models/stop_model.dart';
+import 'package:bikerr_partner_app/src/models/summary_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/utils/strings/url.dart';
@@ -146,6 +147,24 @@ class Traccar {
     log("$response", name: "kdjfkjdkfj");
     Iterable list = json.decode(response);
     return list.map((model) => Stop.fromJson(model)).toList();
+  }
+
+  static Future<List<Summary>?> getSummery({
+    required RxBool loading,
+    required String deviceId,
+    required String from,
+    required String to,
+  }) async {
+    headers.value['Accept'] = "application/json";
+
+    final response = await HttpService.getServer(
+      "reports/summary?deviceId=$deviceId&from=$from&to=$to&daily=false",
+      isLoading: loading,
+      headerData: headers.value,
+    );
+    log("$response", name: "Summary");
+    Iterable list = json.decode(response);
+    return list.map((model) => Summary.fromJson(model)).toList();
   }
 
   static Future<List> getNotificationTypes({required RxBool loading}) async {
