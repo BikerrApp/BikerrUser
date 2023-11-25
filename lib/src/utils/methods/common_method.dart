@@ -29,7 +29,7 @@ String convertSpeed(double speed) {
 
 String convertDistance(double distance) {
   double calcDistance = distance / 1000;
-  return "${calcDistance.toStringAsFixed(2)} Km";
+  return "${calcDistance.toInt()} Km";
 }
 
 String convertDuration(int duration) {

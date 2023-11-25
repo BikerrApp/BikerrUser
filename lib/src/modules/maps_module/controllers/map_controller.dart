@@ -5,6 +5,7 @@ import 'package:bikerr_partner_app/src/modules/base/controllers/base_controller.
 
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/devices_controller.dart';
 import 'package:bikerr_partner_app/src/modules/maps_module/controllers/notifications_controller.dart';
+import 'package:bikerr_partner_app/src/services/traccar_services.dart';
 
 import 'package:bikerr_partner_app/src/utils/methods/common_method.dart';
 import 'package:bikerr_partner_app/src/utils/strings/icons.dart';
@@ -38,6 +39,13 @@ class MapController extends GetxController {
   final searchCntrl = TextEditingController().obs;
 
   final mapLoading = false.obs;
+
+  final isDeviceDataLoading = false.obs;
+
+  final totolDistance = 0.0.obs;
+  final avgSpeed = 0.0.obs;
+  final topSpeed = 0.0.obs;
+  final timeDriven = 0.obs;
 
   final CameraPosition myLoc = const CameraPosition(
     target: LatLng(28.022936, 73.311913),
@@ -126,20 +134,43 @@ class MapController extends GetxController {
     }
   }
 
-  String getMoreControlsData(value, {required int deviceId}) {
-    var deviceIdData = bmc.sockC.srh.socketPositionsData.value!
-        .where((e) => e.deviceId == deviceId);
-    log("$deviceIdData", name: "asdfasdfasdf");
+  getDeviceData({required int deviceId}) async {
+    DateTime to = DateTime.now();
+    DateTime from = to.subtract(const Duration(days: 30));
+    var res = await Traccar.getSummary(
+      loading: isDeviceDataLoading,
+      deviceId: deviceId.toString(),
+      from: from.toUtc().toIso8601String(),
+      to: to.toUtc().toIso8601String(),
+    );
+    log("$res", name: "sadgfgasfg");
+    totolDistance.value = res!.first.distance!;
+    avgSpeed.value = res.first.averageSpeed!;
+    topSpeed.value = res.first.maxSpeed!;
+    timeDriven.value = res.first.engineHours!;
 
+    log("${avgSpeed.value} , ${totolDistance.value} , ${topSpeed.value} , ${timeDriven.value}",
+        name: "sdgsfgdsfgsd");
+  }
+
+  clearValues() {
+    totolDistance.value = 0.0;
+    avgSpeed.value = 0.0;
+    topSpeed.value = 0.0;
+    timeDriven.value = 0;
+  }
+
+  getMoreControlsData(value, {required int deviceId}) {
+    getDeviceData(deviceId: deviceId);
     switch (value) {
       case 0:
-        return convertDistance(deviceIdData.first.attributes!["totalDistance"]);
+        return convertDistance(totolDistance.value);
       case 1:
-        return convertSpeed(deviceIdData.first.speed!);
+        return convertSpeed(avgSpeed.value);
       case 2:
-        return convertSpeed(deviceIdData.first.speed!);
+        return convertSpeed(topSpeed.value);
       case 3:
-        return convertDuration(deviceIdData.first.attributes!["hours"]);
+        return convertDuration(timeDriven.value);
       case 4:
         return "View";
       case 5:

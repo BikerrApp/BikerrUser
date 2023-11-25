@@ -109,17 +109,19 @@ class MoreControlsScreen extends StatelessWidget {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 6.w),
                                             child: Center(
-                                              child: MediumTextComp(
-                                                data: bmc.mapC
-                                                    .getMoreControlsData(
-                                                  index,
-                                                  deviceId: bmc.mapC.dc
-                                                      .selectedDeviceId.value,
-                                                ),
-                                                size: 11,
-                                                color: blackColor,
-                                                isOverflow: true,
-                                              ),
+                                              child: Obx(() {
+                                                return MediumTextComp(
+                                                  data: bmc.mapC
+                                                      .getMoreControlsData(
+                                                    index,
+                                                    deviceId: bmc.mapC.dc
+                                                        .selectedDeviceId.value,
+                                                  ),
+                                                  size: 11,
+                                                  color: blackColor,
+                                                  isOverflow: true,
+                                                );
+                                              }),
                                             ),
                                           ),
                                         ),
@@ -147,6 +149,7 @@ class MoreControlsScreen extends StatelessWidget {
           top: -15.h,
           child: GestureDetector(
             onTap: () {
+              bmc.mapC.clearValues();
               Get.back();
             },
             child: Container(

@@ -149,7 +149,7 @@ class Traccar {
     return list.map((model) => Stop.fromJson(model)).toList();
   }
 
-  static Future<List<Summary>?> getSummery({
+  static Future<List<Summary>?> getSummary({
     required RxBool loading,
     required String deviceId,
     required String from,

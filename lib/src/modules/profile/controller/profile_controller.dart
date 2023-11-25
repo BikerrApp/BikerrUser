@@ -36,10 +36,10 @@ class ProfileController extends GetxController {
   final termsAndConditions = [].obs;
 
   final profileListData = [
-    {
+    /*{
       "icon": lockOutlineIcon,
       "name": "Change Password",
-    },
+    },*/
     {
       "icon": docOutlineIcon,
       "name": "Terms of Service",
@@ -124,7 +124,8 @@ class ProfileController extends GetxController {
     final XFile? result = await picker.pickImage(source: ImageSource.gallery);
     imagePath.value = result!.path;
     imagePath.refresh();
-    int id = await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
+    int id =
+        await SharedPreferencesServices.getIntData(key: "user_id_int") ?? 0;
 
     await updateUserData(
       id: id,
@@ -189,24 +190,24 @@ Sincerely,
   }
 
   termsAndPolicies(index) async {
-    log("${termsAndConditions[index - 1]["title"]}", name: "sdfsdgfsgg");
+    log("${termsAndConditions[index]["title"]}", name: "sdfsdgfsgg");
     switch (index) {
+      case 0:
+        Get.to(() => TermsAndPoliciesScreen(
+              title: termsAndConditions[index]["title"],
+              body: termsAndConditions[index]["description"],
+            ));
+        break;
       case 1:
         Get.to(() => TermsAndPoliciesScreen(
-              title: termsAndConditions[index - 1]["title"],
-              body: termsAndConditions[index - 1]["description"],
+              title: termsAndConditions[index]["title"],
+              body: termsAndConditions[index]["description"],
             ));
         break;
       case 2:
         Get.to(() => TermsAndPoliciesScreen(
-              title: termsAndConditions[index - 1]["title"],
-              body: termsAndConditions[index - 1]["description"],
-            ));
-        break;
-      case 3:
-        Get.to(() => TermsAndPoliciesScreen(
-              title: termsAndConditions[index - 1]["title"],
-              body: termsAndConditions[index - 1]["description"],
+              title: termsAndConditions[index]["title"],
+              body: termsAndConditions[index]["description"],
             ));
         break;
       default:
@@ -215,9 +216,13 @@ Sincerely,
 
   changePassword() async {
     var cp = await SharedPreferencesServices.getStringData(key: "password");
-    if (cp != currentPassCntrl.value.value.text.trim()) return getToast("Current password is Wrong!");
-    if (cp == newPassCntrl.value.value.text.trim()) return getToast("New password cannot be same as current password");
-    if (newPassCntrl.value.value.text.trim() != conPassCntrl.value.value.text.trim()) return getToast("Password didn't match!");
+    if (cp != currentPassCntrl.value.value.text.trim())
+      return getToast("Current password is Wrong!");
+    if (cp == newPassCntrl.value.value.text.trim())
+      return getToast("New password cannot be same as current password");
+    if (newPassCntrl.value.value.text.trim() !=
+        conPassCntrl.value.value.text.trim())
+      return getToast("Password didn't match!");
     else {
       var res = await HttpService.post(
         "change-password",

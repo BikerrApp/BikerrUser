@@ -1,5 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:bikerr_partner_app/src/modules/auth/login/controllers/login_controller.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import '../../set_password/set_password.dart';
 
 class SignUpController extends GetxController {
+  final lc = Get.find<LoginController>();
   final userIdCntrl = TextEditingController().obs;
   final userNameCntrl = TextEditingController().obs;
   final emailCntrl = TextEditingController().obs;

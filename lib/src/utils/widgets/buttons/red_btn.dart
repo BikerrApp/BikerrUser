@@ -10,12 +10,14 @@ class RedButtonComp extends StatelessWidget {
   final RxBool isLoading;
   final double? width;
   final bool isSmall;
+  final bool isChange;
   const RedButtonComp({
     required this.btnName,
     required this.onTap,
     required this.isLoading,
     this.width,
     this.isSmall = false,
+    this.isChange = false,
     super.key,
   });
 
@@ -25,8 +27,10 @@ class RedButtonComp extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: redColor),
-          color: redColor.withOpacity(.25),
+          border: Border.all(color: isChange ? greenColor : redColor),
+          color: isChange
+              ? greenColor.withOpacity(.25)
+              : redColor.withOpacity(.25),
           borderRadius: BorderRadius.circular(50.r),
         ),
         height: 45.h,
@@ -36,7 +40,8 @@ class RedButtonComp extends StatelessWidget {
             return Center(
               child: isLoading.value
                   ? CircularProgressIndicator(color: whiteColor)
-                  : MediumTextComp(data: btnName, size: isSmall ? 12.sp : 18.sp),
+                  : MediumTextComp(
+                      data: btnName, size: isSmall ? 12.sp : 18.sp),
             );
           },
         ),

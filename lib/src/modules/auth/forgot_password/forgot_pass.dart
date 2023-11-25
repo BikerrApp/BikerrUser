@@ -35,7 +35,9 @@ class ForgotPasswordScreen extends StatelessWidget {
               60.height,
               DarkGreyButton(
                 btnName: "Send Verification",
-                onTap: () {},
+                onTap: () async {
+                  await fc.forgotPassword();
+                },
                 isLoading: fc.isForgot,
               ),
             ],

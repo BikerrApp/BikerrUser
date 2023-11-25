@@ -45,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
               30.height,
               const SignUpBtn(isLogin: false),
               30.height,
-              const TermsAndConditionsBtn(),
+              TermsAndConditionsBtn(lc: sc.lc),
             ],
           ),
         ),

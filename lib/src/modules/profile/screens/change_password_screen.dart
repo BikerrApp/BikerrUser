@@ -45,7 +45,9 @@ class ChangePasswordScreen extends StatelessWidget {
               25.height,
               RedButtonComp(
                 btnName: "Confirm",
-                onTap: () {},
+                onTap: () async {
+                  await bmc.pc.changePassword();
+                },
                 isLoading: bmc.pc.isChangePassword,
               )
             ],

@@ -76,13 +76,15 @@ class DevicesController extends GetxController {
   final mobileNumberCntrl = TextEditingController().obs;
   final deviceContactCntrl = TextEditingController().obs;
 
-  sendEngineCommands() async {
+  sendEngineCommands({required String cmd}) async {
     await sendCommands(
-      reqCmd: isEngineOn.value ? "engineStop" : "engineResume",
+      reqCmd: cmd, 
     );
     isEngineOn.value = !isEngineOn.value;
     Get.back();
   }
+
+
 
   sendCommands({required String reqCmd}) async {
     var value = {

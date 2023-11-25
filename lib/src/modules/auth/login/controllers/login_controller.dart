@@ -2,10 +2,12 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:bikerr_partner_app/src/models/user_model.dart';
 import 'package:bikerr_partner_app/src/services/http_client_service.dart';
 import 'package:bikerr_partner_app/src/services/shared_preferences.dart';
 import 'package:bikerr_partner_app/src/services/traccar_services.dart';
+import 'package:bikerr_partner_app/src/utils/widgets/buttons/terms_and_conditions_btn.dart';
 import 'package:bikerr_partner_app/src/utils/widgets/common/toast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +21,33 @@ class LoginController extends GetxController {
   final isLogin = false.obs;
   final isBikerLogin = false.obs;
   final notificationToken = "".obs;
+  final isConditionsLoading = false.obs;
+  final tncData = <TermsAndConditions>[].obs;
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  @override
+  void onInit() async {
+    await getTermsAndConditions();
+    super.onInit();
+  }
+
+  getTermsAndConditions() async {
+    var res = await HttpService.get("cms-page", isLoading: isConditionsLoading);
+    log("${res["data"]}", name: "askdljfhlaksjdhf");
+    List tcData = res["data"];
+    log("$tcData", name: "jfoiewrugoif");
+    var tc = tcData.map(
+      (e) => TermsAndConditions(
+        title: e["title"],
+        desc: e["description"],
+      ),
+    );
+    tncData.value = tc.toList().cast<TermsAndConditions>();
+    tncData.value = tncData.reversed.toList();
+    tncData.refresh();
+    log("$tncData", name: "sdfasdf");
+  }
 
   validateLogin() {
     if (userId.value.value.text.trim().trimLeft().trimRight().isEmpty)
@@ -84,25 +111,6 @@ class LoginController extends GetxController {
     );
 
     return response;
-  }
-
-  eeupdateUserInfo(User user, String id) async {
-    var t =
-        await SharedPreferencesServices.getStringData(key: "fcmToken") ?? "";
-    var oldToken = t.toString().split(",");
-    var tokens = t;
-
-    if (user.attributes!.containsKey("notificationTokens")) {
-      if (!oldToken.contains(notificationToken.value)) {
-        t = "${notificationToken.value},$tokens";
-      }
-    } else {
-      t = notificationToken.value;
-    }
-
-    String userReq = json.encode(user.toJson());
-
-    Traccar.updateUser(userReq, id).then((value) => {});
   }
 
   Future<String> getFCMToken() async {
