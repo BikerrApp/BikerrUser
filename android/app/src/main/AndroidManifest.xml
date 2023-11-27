@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <queries>
         <intent>
@@ -22,7 +23,7 @@
     </queries>
 
     <application
-        android:label="Bikerr Partner"
+        android:label="Bikerr"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
