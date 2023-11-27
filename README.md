@@ -1,4 +1,4 @@
-# bikerr_partner_app
+# bikerr
 
 A new Flutter project.
 
